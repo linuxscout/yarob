@@ -40,7 +40,7 @@ def treat_lines(lines):
     list_fields = {}
     for line in lines:
         if not line.startswith("#"):
-            line = line.strip()
+            line = line.strip("\n")
             fields = line.split("\t")
             if len(fields)>= 9:
                 tense_code = fields[0]
@@ -54,8 +54,9 @@ def treat_lines(lines):
                 "case_weak" : fields[5],
                 "cause" : fields[6],
                 "subject" : fields[7],
-                "extra" : fields[8],
+                "extra": fields[8],
                 }
+
                 list_fields[tense_arabic][pronoun]= inflect_dict
             
     return list_fields

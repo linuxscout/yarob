@@ -12,7 +12,7 @@ all:
 
 # Publish to github
 publish:
-	git push origin master 
+	git push origin main
 
 md2rst:
 	pandoc -s -r markdown -w rst README.md -o README.rst
