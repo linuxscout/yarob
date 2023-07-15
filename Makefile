@@ -43,3 +43,6 @@ build_verb_inflect:
 example_count:
 	#
 	awk 'BEGIN { FS="\n"; RS=""; OFS="\t"} {print $$1}END {}' data-source/examples  | wc -l
+
+server:
+	cd web; python3 yarob_flask.py

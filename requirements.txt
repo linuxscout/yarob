@@ -1,0 +1,7 @@
+mishkal>=0.4.1
+qalsadi>=0.5
+pyarabic>=0.6.15
+#web
+flask>=3.2.3
+flask-minify>=0.42
+flask-cors>=4.0.0
