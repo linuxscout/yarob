@@ -40,3 +40,6 @@ build_verb_inflect:
 	echo "# This Table is generated automaticly by yarob/tools/gen_verb_inflect.py" > $(OUTPUT)
 	echo "# Based on yarob/data-source/verbs.csv" >> $(OUTPUT)
 	cd tools; python3 gen_verb_inflect.py >> ../$(OUTPUT)
+example_count:
+	#
+	awk 'BEGIN { FS="\n"; RS=""; OFS="\t"} {print $$1}END {}' data-source/examples  | wc -l
