@@ -1103,6 +1103,18 @@ var  lookup_click = function(e) {
       action: "Lookup"
     }, function(d) {
       $("#result").html("");
+             // ask btn
+        var btn_ask = document.createElement('button')
+        btn_ask.setAttribute('class',"btn btn-primary")
+        btn_ask.setAttribute('data-toggle',"modal")
+        btn_ask.setAttribute('href',"#modal-container-ask-service")
+        var glyph = document.createElement('span')
+        glyph.setAttribute("class", "glyphicon glyphicon-send")
+        btn_ask.appendChild(glyph);
+        btn_ask.appendChild(document.createTextNode( " طلب مراجعة"));
+       $("#result").append(btn_ask)
+
+
       for (i = 0; i < d.result.length; i++) {
         item = d.result[i];
         console.log(i);
@@ -1118,7 +1130,7 @@ var  lookup_click = function(e) {
         div_inflect.setAttribute('class', "inflect");
         div_extra.setAttribute('class', "extra");
 //        span.setAttribute('class', item.tag);
-        div_phrase.appendChild(document.createTextNode(" " + item.phrase));
+        div_phrase.innerHTML = item.phrase;
         div_inflect.innerHTML = item.inflection;
         //extra information:
 //        const buttons = ["تقييم", "نسخ", "مشاركة", "إبلاغ", "راجعه خبير",
@@ -1163,15 +1175,13 @@ var  lookup_click = function(e) {
         // signal btn
         var btn4 = document.createElement('button')
         btn4.setAttribute('class',"btn btn-danger btn-xs")
-        btn4.setAttribute('class',"btn btn-danger btn-xs")
         btn4.setAttribute('data-toggle',"modal")
         btn4.setAttribute('href',"#modal-container-187721")
         var glyph = document.createElement('span')
-        glyph.setAttribute("class", "glyphicon glyphicon-bullhorn")
+        glyph.setAttribute("class", "glyphicon glyphicon-flag")
         btn4.appendChild(glyph);
         btn4.appendChild(document.createTextNode( " إبلاغ"));
         div_extra.appendChild(btn4)
-
 
 
         // review label
