@@ -22,7 +22,7 @@
 #  
 #
 import collections
-
+import copy
 from pyarabic import araby
 try:
     from . import samples_const
@@ -47,10 +47,11 @@ class SamplesDB():
             # tokenize phrase into words:
             tokens = araby.tokenize(phrase_key)
             for tok in tokens:
-                if tok in word_index:
-                    word_index[tok].append(phrase_key)
-                else:
-                    word_index[tok] = [phrase_key]
+                if araby.is_arabicword(tok):
+                    if tok in word_index:
+                        word_index[tok].append(phrase_key)
+                    else:
+                        word_index[tok] = [phrase_key]
         return word_index
     
     
@@ -86,7 +87,9 @@ class SamplesDB():
             candidates_inflections.append(data_inflect)
         # order candidate results according to frequency
         newlist = sorted(candidates_inflections, key=lambda d: d['freq'], reverse=True)
-        return newlist
+        # use deep copy temporary to avoid problems with data structure
+        result_list = copy.deepcopy(newlist)
+        return result_list
         # return self._fake_match(phrase)
 
     def _fake_lookup(self, phrase):
