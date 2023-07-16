@@ -44,5 +44,12 @@ example_count:
 	#
 	awk 'BEGIN { FS="\n"; RS=""; OFS="\t"} {print $$1}END {}' data-source/examples  | wc -l
 
+samples_build:
+	# convert examples.txt which contains multiline records
+	# into a dictionary as json
+	awk -f tools/record2json.awk data-source/examples > tests/output/samples.py
+
 server:
 	cd web; python3 yarob_flask.py
+test:
+	cd tests;python3 -m pytest
