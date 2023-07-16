@@ -135,11 +135,12 @@ def lookup_inflect(text, last_mark=""):
     for res in results:
         # a  dict contains keys : phrase, inflection, freq
         res["inflection"] = res["inflection"].replace("\n","<br/>")
+        res["phrase"] = highlite(res["phrase"], text)
         list_result.append(res)
 
     return list_result
 
-def auto_inflect(text, lastmark):
+def auto_inflect(text, lastmark=""):
     """
     Generate Inflection for given text
     """
@@ -149,7 +150,26 @@ def auto_inflect(text, lastmark):
     if lastmark == "0" or not lastmark:
         vocalizer.disable_last_mark()    
     vocalized_dict = vocalizer.tashkeel_ouput_html_suggest(text)
-    return vocalized_dict    
+    return vocalized_dict
+
+
+def highlite(output_ph, input_ph):
+    """
+    Highlight words in output which are similar to words in input
+    """
+    # compare out tokens to in tokens without diacritics
+    in_tokens = araby.tokenize(input_ph, morphs=[araby.strip_tashkeel])
+    # keep diacritics to display string properly
+    out_tokens = araby.tokenize(output_ph)
+    res_tokens = []
+    for outtok in out_tokens:
+        outtok_nm = araby.strip_tashkeel(outtok)
+        if outtok_nm in in_tokens:
+            res_tokens.append('<span class="diff-mark">%s</span>'%outtok)
+        else:
+            res_tokens.append(outtok)
+    return " ".join(res_tokens)
+
 def main(args):
     return 0
 
