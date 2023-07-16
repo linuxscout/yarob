@@ -1094,16 +1094,10 @@ var txkl_change = function(e) {
  
 var  lookup_click = function(e) {
         e.preventDefault()
-    var $table = $('<table/>');
-    var $div = $('<div/>');
-    var div = $div[0];
-    var table = $table.attr("border", "0")[0];
-    $table.attr("width", '600');
-    //$table.attr( "style",'text-align: justify; text-justify: newspaper; text-kashida-space: 100;”);
-    var headers = ["<tr>", "<th>الكلمة</th>", "<th>تصنيفها</th>", "</tr>"].join('');
-    $table.append(headers);
+
     $("#result").html("");
     var item;
+
     $.getJSON(script + "/ajaxGet", {
       text: document.NewForm.InputText.value,
       action: "Lookup"
@@ -1111,23 +1105,114 @@ var  lookup_click = function(e) {
       $("#result").html("");
       for (i = 0; i < d.result.length; i++) {
         item = d.result[i];
-        var span = document.createElement('span');
-        span.setAttribute('class', item.tag);
-        span.appendChild(document.createTextNode(" " + item.word));
-        div.appendChild(span);
-        //display as table
-        var tr = document.createElement('tr');
-        var td = document.createElement('td');
-        td.appendChild(document.createTextNode(item.word));
-        tr.appendChild(td);
-        td = document.createElement('td');
-        td.setAttribute('class', item.tag);
-        td.appendChild(document.createTextNode(item.tag));
-        tr.appendChild(td);
-        table.appendChild(tr);
+        console.log(i);
+        var div_item = document.createElement('div');
+        var div_phrase = document.createElement('div');
+        var div_inflect = document.createElement('div');
+        // used for extra informations
+        var div_extra = document.createElement('div');
+
+        // set classes
+//        div_item.setAttribute('class', "vocalized");
+        div_phrase.setAttribute('class', "input_phrase");
+        div_inflect.setAttribute('class', "inflect");
+        div_extra.setAttribute('class', "extra");
+//        span.setAttribute('class', item.tag);
+        div_phrase.appendChild(document.createTextNode(" " + item.phrase));
+        div_inflect.innerHTML = item.inflection;
+        //extra information:
+//        const buttons = ["تقييم", "نسخ", "مشاركة", "إبلاغ", "راجعه خبير",
+//          "تشابه "+ item.freq +"%",
+//        ];
+//        div_extra.innerHTML = buttons.join(" ");
+        // recommandation btn
+        var btn1 = document.createElement('button')
+        btn1.setAttribute('class',"btn btn-info btn-xs")
+        for(let i=1;i<5;i++)
+        {
+        var glyph = document.createElement('span')
+        glyph.setAttribute("class", "glyphicon glyphicon-star-empty")
+        btn1.appendChild(glyph);
+        }
+        var glyph = document.createElement('span')
+        glyph.setAttribute("class", "glyphicon glyphicon-star-empty")
+        btn1.appendChild(glyph);
+        btn1.setAttribute("title", "تقييم");
+        div_extra.appendChild(btn1)
+
+        // share btn
+        var btn2 = document.createElement('button')
+        btn2.setAttribute('class',"btn btn-info btn-xs")
+        var glyph = document.createElement('span')
+        glyph.setAttribute("class", "glyphicon glyphicon-share")
+        btn2.appendChild(glyph);
+//        btn2.appendChild(document.createTextNode( " مشاركة"));
+        btn2.setAttribute("title", "مشاركة");
+        div_extra.appendChild(btn2)
+
+        // copy btn
+        var btn3 = document.createElement('button')
+        btn3.setAttribute('class',"btn btn-info btn-xs")
+        var glyph = document.createElement('span')
+        glyph.setAttribute("class", "glyphicon glyphicon-floppy-disk")
+        btn3.appendChild(glyph);
+//        btn3.appendChild(document.createTextNode( " نسخ"));
+        btn3.setAttribute("title", "نسخ");
+        div_extra.appendChild(btn3)
+
+        // signal btn
+        var btn4 = document.createElement('button')
+        btn4.setAttribute('class',"btn btn-danger btn-xs")
+        btn4.setAttribute('class',"btn btn-danger btn-xs")
+        btn4.setAttribute('data-toggle',"modal")
+        btn4.setAttribute('href',"#modal-container-187721")
+        var glyph = document.createElement('span')
+        glyph.setAttribute("class", "glyphicon glyphicon-bullhorn")
+        btn4.appendChild(glyph);
+        btn4.appendChild(document.createTextNode( " إبلاغ"));
+        div_extra.appendChild(btn4)
+
+
+
+        // review label
+        var lbl1 = document.createElement('button')
+        var glyph = document.createElement('span')
+        if (item.checked)
+        {
+        lbl1.setAttribute('class',"label label-success")
+        glyph.setAttribute("class", "glyphicon glyphicon-check")
+        lbl1.appendChild(glyph);
+        lbl1.appendChild(document.createTextNode( " مُراجع" ));
+        lbl1.setAttribute("title", "راجعه خبير بشري");
+        }
+        else
+        {
+        lbl1.setAttribute('class',"label label-warning")
+        glyph.setAttribute("class", "glyphicon glyphicon-warning-sign")
+        lbl1.appendChild(glyph);
+        lbl1.appendChild(document.createTextNode( " لم يراجع"));
+        lbl1.setAttribute("title", "لم يراجعه خبير بشري");
+        }
+        div_extra.appendChild(lbl1)
+
+
+        // similarity and score badge
+        var lbl2 = document.createElement('button')
+        lbl2.setAttribute('class',"badge badge-success")
+        lbl2.appendChild(document.createTextNode( "تشابه "+ item.freq +"%",));
+        div_extra.appendChild(lbl2)
+
+        // To do add more flags
+        div_item.appendChild(div_phrase);
+        div_item.appendChild(div_inflect);
+        div_item.appendChild(div_extra);
+        var hr =  document.createElement('hr');
+
+        div_item.appendChild(hr);
+
+      $("#result").append(div_item);
       }
-      $("#result").append($div);
-      $("#result").append($table);
+
     });
   }
 // ready document

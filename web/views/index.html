@@ -71,13 +71,14 @@
                             <li>
                                 <button class="close pull-right" id="help" title="مساعدة" data-toggle="modal" href="#modal-container-187711" id="modal-187711"><span aria-hidden="true"><span class="glyphicon glyphicon-question-sign" title="مساعدة" > </span></span><span class="sr-only">مساعدة</span></button>
                             </li>
+
                             <li>
                                 <button type="reset" class="close pull-right" title="مسح"><span aria-hidden="true"><span class="glyphicon glyphicon-remove"></span></span><span class="sr-only">مسح</span></button>
                             </li>
 
                         </ul>
                     </div>
-                    <textarea id="InputText" class="form-control" name="InputText" cols="90" rows="3">{{DefaultText}}</textarea>
+                    <textarea id="InputText" class="form-control" name="InputText" cols="90" rows="2">{{DefaultText}}</textarea>
 
                     <div class='form-inline'>
                         <a class="btn btn-success" id="lookup" title='بحث عن الجملة في قاعدة البيانات'>بحث</a>
@@ -307,6 +308,36 @@
                             <li>اضغط على الكلمة للحصول على اقتراحات التشكيل الأخرى.</li>
 
                             <li>اضغط على زر أدوات أخرى للحصول على خدمات أخرى.</li>
+                        </ul>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal" type="button">إغلاق</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="signal">
+        <div class="modal fade" id="modal-container-187721">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal" type="button">×</button>
+
+                        <h4 class="modal-title" id="myModalLabel">إبلاغ <span class=
+            "glyphicon glyphicon-question-bullhorn"></span></h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <ul>
+                            <li>جملة غير لائقة</li>
+
+                            <li>إعراب غير صحيح يحتاج إلى المراجعة</li>
+
+                            <li>إعراب صحيح يقبل حالات أخرى</li>
+                            <li>مشكلة أخرى</li>
+
                         </ul>
                     </div>
 

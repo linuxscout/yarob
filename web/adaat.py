@@ -128,12 +128,14 @@ def lookup_inflect(text, last_mark=""):
     # word_list = araby.tokenize(text)
     
     db =  samplesdb.SamplesDB()
-    results = db.lookup(text)
-    
+    results = db.match(text)
+    # results = db.lookup(text)
+
     list_result = []
     for res in results:
-        list_result.append({'word':res.get("phrase",""),
-                            'tag': res.get("inflection","")})
+        # a  dict contains keys : phrase, inflection, freq
+        res["inflection"] = res["inflection"].replace("\n","<br/>")
+        list_result.append(res)
 
     return list_result
 

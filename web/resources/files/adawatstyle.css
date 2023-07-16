@@ -152,16 +152,16 @@ tbody:nth-child(even) td {
   font-family:ColoredTashkeelFont,  'Droid Arabic Naskh', Amiri,'Traditional Arabic',Sans,Arial;
  font-size:30px
 }
-/*
-.vocalized {
+.input_phrase {
   font-family:ColoredTashkeelFont,  'Droid Arabic Naskh', Amiri,'Traditional Arabic',Sans,Arial;
- font-size:30px
+ font-size:24px
 }
-.txkl{
-  background-color:#e2e2e2;
+.inflect {
+  font-family:ColoredTashkeelFont,  'Droid Arabic Naskh', Amiri,'Traditional Arabic',Sans,Arial;
+ font-size:16px
 }
-*/
-
+.extra {background-color:#D1F9F9;
+text-align:left;}
 .spld{
   background-color:#e2e2e2
 }

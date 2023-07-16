@@ -20,9 +20,14 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #  
-#  
+#
+import collections
 
-import samples_const
+from pyarabic import araby
+try:
+    from . import samples_const
+except:
+    import samples_const
 
 class SamplesDB():
     """
@@ -30,15 +35,23 @@ class SamplesDB():
     """
     def __init__(self, path=""):
         
-        self.data  = {}
-        self.index = {}
-        pass
+        self.data  = samples_const.SAMPLES
+        self.index = self.create_index()
         
     def create_index(self,):
         """
         Create index of words in samples
         """
-        pass
+        word_index = {}
+        for phrase_key in self.data:
+            # tokenize phrase into words:
+            tokens = araby.tokenize(phrase_key)
+            for tok in tokens:
+                if tok in word_index:
+                    word_index[tok].append(phrase_key)
+                else:
+                    word_index[tok] = [phrase_key]
+        return word_index
     
     
     def lookup(self, phrase =""):
@@ -52,7 +65,29 @@ class SamplesDB():
         Look up for phrase in samples data, approximative search.
         return a list of inflections dict with similarity score.
         """
-        return self._fake_match(phrase)
+        # tokenize phrase
+        phrase_nm = araby.strip_tashkeel(phrase)
+        tokens = araby.tokenize(phrase_nm)
+        # remove duplicated tokesn
+        tokens = list(set(tokens))
+        candidates_phrases = []
+        # look up for all phrases containing tokens
+        for tok in tokens:
+            candidates_phrases.extend(self.index.get(tok,[]))
+        # order candidate_phrases according to their frequency
+        # more a phrase contains tokens it will be selected
+        phrase_frequency = dict(collections.Counter(candidates_phrases))
+        candidates_inflections = []
+        for cand_phrase in phrase_frequency:
+            # add frequency for each phrase
+            data_inflect = self.data.get(cand_phrase, {})
+            data_inflect["freq"] = round(phrase_frequency.get(cand_phrase, 0)*100//len(tokens))
+            data_inflect["checked"] = True
+            candidates_inflections.append(data_inflect)
+        # order candidate results according to frequency
+        newlist = sorted(candidates_inflections, key=lambda d: d['freq'], reverse=True)
+        return newlist
+        # return self._fake_match(phrase)
 
     def _fake_lookup(self, phrase):
         """
@@ -61,8 +96,11 @@ class SamplesDB():
         """ 
         return [{"phrase":phrase,
             "inflection": "إعراب الجملة",
-        }, 
-        ]
+        },
+                {"phrase": phrase,
+                 "inflection": "2إعراب الجملة",
+                 },
+                ]
         
     def _fake_match(self, phrase):
         """
