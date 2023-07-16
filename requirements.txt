@@ -5,3 +5,5 @@ pyarabic>=0.6.15
 flask>=2.2.3
 flask-minify>=0.42
 flask-cors>=4.0.0
+#test
+pytest

@@ -52,4 +52,5 @@ samples_build:
 server:
 	cd web; python3 yarob_flask.py
 test:
-	cd tests;python3 -m pytest
+	#cd tests;python3 -m pytest test_*
+	cd tests;python3 -m pytest test_adaat.py

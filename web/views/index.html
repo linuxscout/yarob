@@ -322,6 +322,7 @@
         <div class="modal fade" id="modal-container-187721">
             <div class="modal-dialog">
                 <div class="modal-content">
+                    <form>
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal" type="button">×</button>
 
@@ -331,19 +332,64 @@
 
                     <div class="modal-body">
                         <ul>
-                            <li>جملة غير لائقة</li>
+                            <li><input type="radio" name="signal" value="incorrect" checked/>إعراب غير صحيح يحتاج إلى المراجعة</li>
 
-                            <li>إعراب غير صحيح يحتاج إلى المراجعة</li>
+                            <li><input type="radio" name="signal" value="othercases"/>إعراب صحيح يقبل حالات أخرى</li>
 
-                            <li>إعراب صحيح يقبل حالات أخرى</li>
-                            <li>مشكلة أخرى</li>
+                            <li><input type="radio" name="signal" value="inappropriate"/>جملة غير لائقة</li>
+
+                            <li><input type="radio" name="signal" value="other"/>مشكلة أخرى</li>
 
                         </ul>
                     </div>
 
                     <div class="modal-footer">
+                        <button class="btn btn-primary" data-dismiss="modal" type="button">إرسال</button>
                         <button class="btn btn-default" data-dismiss="modal" type="button">إغلاق</button>
                     </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="ask-service">
+        <div class="modal fade" id="modal-container-ask-service">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form>
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal" type="button">×</button>
+
+                        <h4 class="modal-title" id="myModalLabel">طلب مراجعة من خبير بشري <span class=
+            "glyphicon glyphicon-question-flag"></span></h4>
+                    </div>
+
+                    <div class="modal-body">
+
+                        يرجى إعراب الجملة الآتية من خبير لغوي بشري:
+                        هذه الخدمة مجانية حاليّا
+                        <br/>
+                        <input type="text" id="ask-input"/>
+                        <br/>
+                        يرجى إبلاغي بتوفر النتيجة:
+                        <ul>
+                            <li><input type="radio" name="ask-by" value="email"/>
+                                بالبريد الالكتروني
+                        <input type="email" name="email"/>
+                            </li>
+                            <li><input type="radio" name="ask-by" value="site" checked/>
+                                عرضها في الموقع: توضع في قسم آخر المراجعات                       </li>
+                        </ul>
+
+
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-success" data-dismiss="modal" type="button">إرسال</button>
+                        <button class="btn btn-default" data-dismiss="modal" type="button">إغلاق</button>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>
