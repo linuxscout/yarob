@@ -38,6 +38,9 @@ BEGIN {
     printf "        \"phrase\": \"%s\",\n", phrase
     printf "        \"inflection\": \"%s\",\n",   inflection
     printf "        \"checked\": True,\n"
+    printf "        \"reference\": \"وب\",\n"
+    printf "        \"type\": \"\",\n"
+    printf "        \"date\": \"%s\",\n", "2023-07-16"
     printf "    }"
 }
 END {
