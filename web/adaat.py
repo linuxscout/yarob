@@ -169,7 +169,7 @@ def auto_inflect(text, lastmark="", suggests=False):
         resultsListList, _ = vocalizer.full_stemmer(text)
         word_features_table = {}
         for resList in resultsListList:
-            print(type(resList))
+            # print(type(resList))
             if resList:
                 key = resList[0].get_unvocalized()
                 word_features_table[key] = {}
