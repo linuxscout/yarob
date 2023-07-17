@@ -47,6 +47,16 @@ class TestAdaatCase(unittest.TestCase):
             print(tagscode, new_inflect_string, taglist)
         self.assertEqual(True, False)  # add assertion here
 
+    def test_tag_inflect_suggest(self):
+        """
+        test create index
+        """
+        phrase = "ليت الولد جميل"
+        phrase = "يلعب الولد ويجري بالكرتين"
+        word_features_table = adaat.auto_inflect(phrase, suggests=True)
+        pprint.pprint(word_features_table)
+        self.assertEqual(True, False)  # add assertion here
+
     def _extract_inflect(self, inflct):
         """
         A temporary function to split inflect string output from Mishkal into

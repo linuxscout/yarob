@@ -32,6 +32,8 @@ import pyarabic.araby as araby
 
 # local
 import randtext
+from  mysam.taginflector import tagInflector
+from  mysam.tagcoder import tagCoder
 sys.path.append(os.path.join("../yarob"))
 
 import samplesdb
@@ -57,7 +59,7 @@ def DoAction(text, action, options = {}):
         return lookup_inflect(text, lastmark)               
     elif action == "Inflect":
         lastmark = options.get('lastmark', "0")    
-        return auto_inflect(text, lastmark)               
+        return auto_inflect(text, lastmark, suggests=True)
     else:
 
         return text
@@ -140,17 +142,60 @@ def lookup_inflect(text, last_mark=""):
 
     return list_result
 
-def auto_inflect(text, lastmark=""):
+# def auto_inflect(text, lastmark=""):
+#     """
+#     Generate Inflection for given text
+#     """
+#     cpath = os.path.join(os.path.dirname(__file__), '../tmp/')
+#     vocalizer = ArabicVocalizer.TashkeelClass(mycache_path = cpath)
+#     #~ vocalizer.disable_cache()
+#     if lastmark == "0" or not lastmark:
+#         vocalizer.disable_last_mark()
+#     vocalized_dict = vocalizer.tashkeel_ouput_html_suggest(text)
+#     return vocalized_dict
+
+def auto_inflect(text, lastmark="", suggests=False):
     """
     Generate Inflection for given text
     """
+    inflector = tagInflector()
+    tagcoder = tagCoder()
     cpath = os.path.join(os.path.dirname(__file__), '../tmp/')
     vocalizer = ArabicVocalizer.TashkeelClass(mycache_path = cpath)
-    #~ vocalizer.disable_cache()
     if lastmark == "0" or not lastmark:
-        vocalizer.disable_last_mark()    
-    vocalized_dict = vocalizer.tashkeel_ouput_html_suggest(text)
-    return vocalized_dict
+        vocalizer.disable_last_mark()
+    vocalized_listdict = vocalizer.tashkeel_ouput_html_suggest(text)
+    if suggests:
+        resultsListList, _ = vocalizer.full_stemmer(text)
+        word_features_table = {}
+        for resList in resultsListList:
+            print(type(resList))
+            if resList:
+                key = resList[0].get_unvocalized()
+                word_features_table[key] = {}
+            for rsdict in resList:
+                vocalized = rsdict.get_vocalized();
+                tags = rsdict.get_tags()
+                typ = rsdict.get_type()
+                tags = ":".join([tags, typ])
+                tagscode = tagcoder.encode(rsdict.get_tags().split(":"))
+                inflect = inflector.inflect(tagscode)
+                new_dict = {"vocalized": rsdict.get_vocalized(),
+                            "type": rsdict.get_type(),
+                            "tags": tags,
+                            "tagscode": tagscode,
+                            "inflect":inflect,
+                            }
+                if vocalized in word_features_table[key]:
+                    word_features_table[key][vocalized].append(new_dict)
+                else :
+                    word_features_table[key][vocalized] = [new_dict,]
+        for voc_dict in vocalized_listdict:
+            chosen_nm = araby.strip_tashkeel(voc_dict.get("chosen",''))
+            voc_dict['features'] = word_features_table.get(chosen_nm, {})
+
+    # return word_features_table
+    return vocalized_listdict
 
 
 def highlite(output_ph, input_ph):

@@ -709,10 +709,10 @@ var more_click = function(e) {
         order: i.toString(),
         lastmark: vocalizewWordsEnds
       }, function(d) {
-        console.log(d);
-        console.log(d.order);
-        console.log(d.result);
-        console.log(d.result[0].chosen);
+//        console.log(d);
+//        console.log(d.order);
+//        console.log(d.result);
+//        console.log(d.result[0].chosen);
         // Grammar graph 
         //draw_graph();
         var text = "";
@@ -722,7 +722,7 @@ var more_click = function(e) {
           
           item = d.result[i];
           var currentId = id * 100 + i;
-          console.log(item.chosen);
+//          console.log(item.chosen);
           if (item.chosen.indexOf("~~") >= 0) { // handle collocations
             openColocation = 0;
             text += "</span><span class='collocation' title='دقّق تشكيل هذه العبارة'>" +
@@ -816,7 +816,7 @@ var more_click = function(e) {
           
           item = d.result[i];
           var currentId = id * 100 + i;
-          console.log(item.chosen);
+//          console.log(item.chosen);
           if (item.chosen.indexOf("~~") >= 0) { // handle collocations
             openColocation = 0;
             text += "</span><span class='collocation' title='دقّق تشكيل هذه العبارة'>" +
@@ -858,7 +858,9 @@ var vocalized_click =function(e) {
     var myword = $(this);
     var nextword = $(this).next();
     var id = myword.attr('id');
+
     var list = $("#result").data(id).suggest.split(';');
+    console.log( $("#result").data(id).features)
     //~ var text = "<form><select class='txkl' id='" + id + " size=3'>";
     var text = "<select class='txkl' id='" + id + "' value='"+myword.text()+"'>";
     var cpt = 0;
@@ -872,15 +874,18 @@ var vocalized_click =function(e) {
     text += "<option><strong>تعديــل...</strong></option>";
     text += "<option><strong>××إلغاء××</strong></option>";
     text += "</select>";
+    // multiple suggestions
     if (cpt > 1) {
+        console.log(text)
       myword.replaceWith(text);
 
     } else {
+        // unique suggestions
       text = "<input type='text' class='txkl'  size='10' id='" + myword.attr('id') +
         "' value='" + myword.text() + "'/>";
       myword.replaceWith(text);
     }
-    console.log(myword.text()+";;"+nextword.text())
+//    console.log(myword.text()+";;"+nextword.text())
 }
 
 
@@ -912,7 +917,7 @@ var vocalized_click =function(e) {
         order: i.toString(),
         lastmark: vocalizewWordsEnds
       }, function(d) {
-        console.log(d);
+//        console.log(d);
         var text = "";
         var id = parseInt(d.order);
         var openColocation = 0;
@@ -1003,7 +1008,7 @@ var vocalized_click =function(e) {
       var text = "<input type='text' class='spld'  size='10' id='" + $(this).attr('id') +
         "' value='" + list[0] + "'/>";
       $(this).replaceWith(text);
-       console.log($(this).text()+"-"+$(this).next().text());
+//       console.log($(this).text()+"-"+$(this).next().text());
     }
  }
 
@@ -1071,9 +1076,23 @@ var txkl_change = function(e) {
 
     if ($(this).val() != "تعديــل..." && ($(this).val() != "××إلغاء××")) {
       var item = $("#result").data($(this).attr('id'));
+      if("features" in item)
+      {var new_inflect = "["+item.features[$(this).val()][0].tagscode+"]{"+item.features[$(this).val()][0].inflect+"}#"+ item.features[$(this).val()][0].tags;
+      console.log("val "+item.features[$(this).val()]);
+      console.log("tags "+item.features[$(this).val()][0]['tags']);
+      console.log("tags "+item.features[$(this).val()][0].tags);
+      console.log("tagscode "+item.features[$(this).val()][0].tagscode);
+      console.log("inflect "+item.features[$(this).val()][0].inflect);
+      console.log("type "+item.features[$(this).val()][0].type);
+      }
+      else
+      {var new_inflect = "معدّل يدويا*";
+      }
       var text = "<span class='vocalized' id='" + $(this).attr('id') + "' suggest='" + item.suggest.replace(/;/g, '، ') +
-         "' inflect='معدّل يدويا'rule='معدّل يدويا' link='N/A' >" + $(this).val() + "</span>";
+         "' inflect='"+new_inflect+"'rule='معدّل يدويا' link='N/A' >" + $(this).val() + "</span>";
+
       $(this).replaceWith(text);
+
     } else if ($(this).val() == "××إلغاء××")
     {
       var item = $("#result").data($(this).attr('id'));
@@ -1087,7 +1106,7 @@ var txkl_change = function(e) {
       text = "<input type='text' class='txkl'  size='10' id='" + $(this).attr('id') +
         "' value='" + list[0] + "'/>";
       $(this).replaceWith(text);
-       //~ console.log($(this).text()+"-"+$(this).next().text());
+//       console.log($(this).text()+"-"+$(this).next().text());
     }
  }
  
@@ -1117,7 +1136,7 @@ var  lookup_click = function(e) {
 
       for (i = 0; i < d.result.length; i++) {
         item = d.result[i];
-        console.log(i);
+//        console.log(i);
         var div_item = document.createElement('div');
         var div_phrase = document.createElement('div');
         var div_inflect = document.createElement('div');
