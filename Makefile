@@ -48,6 +48,12 @@ samples_build:
 	# convert examples.txt which contains multiline records
 	# into a dictionary as json
 	awk -f tools/record2json.awk data-source/examples > tests/output/samples.py
+samples_build2:
+	# convert examples.txt which contains multiline records
+	# into a dictionary as json
+	awk -f tools/record2json.awk data-source/examples-part-jazeera > tests/output/samples-jazeera.py
+	awk -f tools/record2json.awk data-source/example-part-quran> tests/output/example-part-quran.py
+	awk -f tools/record2json.awk data-source/examples-divers> tests/output/examples-divers.py
 
 server:
 	cd web; python3 yarob_flask.py
