@@ -69,8 +69,9 @@ class SamplesDB():
         """
         Create index of words in samples
         """
+        filename = "yarob_samplesdb_index.pickle"
         try:
-            word_index = pickle.load(open("var.pickle", "rb"))
+            word_index = pickle.load(open(filename, "rb"))
         except (OSError, IOError) as e:
 
             word_index = {}
@@ -86,7 +87,7 @@ class SamplesDB():
                                 word_index[lem].append(phrase_key)
                             else:
                                 word_index[lem] = [phrase_key]
-            pickle.dump(word_index, open("var.pickle", "wb"))
+            pickle.dump(word_index, open(filename, "wb"))
         return word_index
     
     
@@ -112,10 +113,11 @@ class SamplesDB():
         # look up for all phrases containing tokens
         for tok in tokens:
             candidates_phrases.extend(self.index.get(tok,[]))
+        candidates_phrases = list(set(candidates_phrases))
 
         # order candidate_phrases according to their frequency
         # more a phrase contains tokens it will be selected
-        phrase_frequency = dict(collections.Counter(candidates_phrases))
+        # ~ phrase_frequency = dict(collections.Counter(candidates_phrases))
         candidates_inflections = []
         for cand_phrase in candidates_phrases:
         # for cand_phrase in phrase_frequency:

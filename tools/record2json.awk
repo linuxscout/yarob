@@ -2,11 +2,11 @@
 # The json has format:
 # {
 # phrase_unvocalized:{ 
-#	phrase_vocalized:"",
+#   phrase_vocalized:"",
 # "inflection":""},
 #   }
 # refereces:
-#https://unix.stackexchange.com/questions/654859/can-i-use-awk-to-distribute-parameters-inside-a-json-file
+# https://unix.stackexchange.com/questions/654859/can-i-use-awk-to-distribute-parameters-inside-a-json-file
 BEGIN {
     RS = ""
     FS = "\n"
@@ -38,9 +38,9 @@ BEGIN {
     printf "        \"phrase\": \"%s\",\n", phrase
     printf "        \"inflection\": \"%s\",\n",   inflection
     printf "        \"checked\": True,\n"
-    printf "        \"reference\": \"وب\",\n"
+    printf "        \"reference\": \"%s\",\n", ref
     printf "        \"type\": \"\",\n"
-    printf "        \"date\": \"%s\",\n", "2023-07-16"
+    printf "        \"date\": \"%s\",\n", date
     printf "    }"
 }
 END {
