@@ -2,6 +2,7 @@ import unittest
 
 import sys
 import pprint
+
 sys.path.append("../")
 
 from yarob.samplesdb import SamplesDB
@@ -18,7 +19,7 @@ class TestSampleDBCase(unittest.TestCase):
         word_index = self.db.create_index()
         pprint.pprint(word_index)
         print(len(word_index))
-        self.assertEqual(True, True)  # add assertion here
+        self.assertEqual(True, False)  # add assertion here
     def test_match_index(self):
         """
         test create index
