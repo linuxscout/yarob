@@ -55,7 +55,10 @@ samples_build2:
 	# into a dictionary as json
 #~ 	awk -v ref=aljazeera -f tools/record2json.awk data-source/examples-part-jazeera > tests/output/samples-jazeera.py
 #~ 	awk -v ref=elite.forumfa.net -f tools/record2json.awk data-source/example-part-quran> tests/output/example-part-quran.py
-	awk -v ref=tahadz.com -v date=$(DATE) -f tools/record2json.awk data-source/examples-divers-part> tests/output/examples-divers-part1.py
+#~ 	awk -v ref=tahadz.com -v date=$(DATE) -f tools/record2json.awk data-source/examples-divers-part> tests/output/examples-divers-part1.py
+	awk -v ref=tahadz.com -v date=$(DATE) -f tools/record2json.awk data-source/example-i3rabxi3rab> tests/output/example-i3rabxi3rab.py
+	echo "print(len(SAMPLES.keys()))">> tests/output/example-i3rabxi3rab.py
+	python3 tests/output/example-i3rabxi3rab.py
 
 server:
 	cd web; python3 yarob_flask.py
