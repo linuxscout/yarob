@@ -56,13 +56,17 @@ samples_build2:
 #~ 	awk -v ref=aljazeera -f tools/record2json.awk data-source/examples-part-jazeera > tests/output/samples-jazeera.py
 #~ 	awk -v ref=elite.forumfa.net -f tools/record2json.awk data-source/example-part-quran> tests/output/example-part-quran.py
 #~ 	awk -v ref=tahadz.com -v date=$(DATE) -f tools/record2json.awk data-source/examples-divers-part> tests/output/examples-divers-part1.py
-	awk -v ref=tahadz.com -v date=$(DATE) -f tools/record2json.awk data-source/example-i3rabxi3rab> tests/output/example-i3rabxi3rab.py
-	echo "print(len(SAMPLES.keys()))">> tests/output/example-i3rabxi3rab.py
-	python3 tests/output/example-i3rabxi3rab.py
+	awk -v ref=i3rabxi3rab -v date=$(DATE) -f tools/record2json.awk data-source/example_i3rabxi3rab> tests/output/example_i3rabxi3rab.py
+	echo "if __name__=='__main__':\n    print(len(SAMPLES.keys()))">> tests/output/example_i3rabxi3rab.py
+	python3 tests/output/example_i3rabxi3rab.py
 
 server:
 	cd web; python3 yarob_flask.py
 test:
 	#cd tests;python3 -m pytest test_*
 	cd tests;python3 -m pytest test_sampledb.py
-	#cd tests;python3 -m pytest test_adaat.py
+	cd tests;python3 -m pytest test_adaat.py
+	
+struct:
+	python3 tools/restructure_data.py > tests/output/samples_temp.review.py
+

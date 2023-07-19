@@ -21,38 +21,45 @@
 #  MA 02110-1301, USA.
 #  
 #
-import collections
 import copy
 from difflib import SequenceMatcher
 import pickle
 from pyarabic import araby
 import qalsadi.analex
 import qalsadi.stemnode
+
+# try:
+#     from . import samples_temp
+# except ImportError:
+#     import samples_temp
 try:
     from . import samples_const
 except:
     import samples_const
 
-class SamplesDB():
+
+class SamplesDB:
     """
     A class to handle Inflection Samples and Data bases
     """
     def __init__(self, path=""):
         
         self.data  = samples_const.SAMPLES
+        # self.data = samples_temp.SAMPLES
         self.analyzer = qalsadi.analex.Analex()
-        self.index = self.create_index()
-
+        self.index = self._build_index()
+        self.path = path
 
     def _get_lemmas(self, word):
         """
         get all lemmas of a word
         """
-        resultsList = self.analyzer.check_word(word)
-        stmnd = qalsadi.stemnode.StemNode(resultsList)
-        lemmas =  stmnd.get_lemmas()
-        lemmas = [araby.strip_tashkeel(l) for l in lemmas]
+        resultslist = self.analyzer.check_word(word)
+        stmnd = qalsadi.stemnode.StemNode(resultslist)
+        lemmas = stmnd.get_lemmas()
+        lemmas = [araby.strip_tashkeel(lm) for lm in lemmas]
         return lemmas
+
     def _get_phrase_lemmas(self, phrase_nm):
         """
         get all lemmas of a phrase
@@ -65,64 +72,71 @@ class SamplesDB():
         lemmas_list = list(set(lemmas_list))
         return lemmas_list
 
-    def create_index(self,):
+    def _build_index(self,):
         """
-        Create index of words in samples
+
         """
         filename = "yarob_samplesdb_index.pickle"
         try:
             word_index = pickle.load(open(filename, "rb"))
-        except (OSError, IOError) as e:
-
-            word_index = {}
-            for phrase_key in self.data:
-                # tokenize phrase into words:
-                tokens = araby.tokenize(phrase_key)
-                for tok in tokens:
-
-                    if araby.is_arabicword(tok):
-                        lemmas = self._get_lemmas(tok)
-                        for lem in lemmas:
-                            if lem in word_index:
-                                word_index[lem].append(phrase_key)
-                            else:
-                                word_index[lem] = [phrase_key]
+        except (OSError, IOError):
+            word_index = self.create_index(self.data)
             pickle.dump(word_index, open(filename, "wb"))
+
         return word_index
-    
-    
-    def lookup(self, phrase =""):
+
+    def create_index(self, data={}):
+        """
+        Create index of words in samples,
+        Can create an index for a given data
+        can enbale or disable cache
+        """
+        if not data:
+            data = self.data
+        word_index = {}
+        for id_key in data:
+            # lemmas are already calculted in data dict
+            lemmas = data[id_key].get("keywords","").split(":")
+            if not lemmas:
+                phrase = data[id_key].get("phrase", "")
+                lemmas = self._get_phrase_lemmas(phrase)
+            for lem in lemmas:
+                if araby.is_arabicword(lem):
+                    if lem in word_index:
+                        word_index[lem].append(id_key)
+                    else:
+                        word_index[lem] = [id_key]
+        return word_index
+
+    def lookup(self, phrase=""):
         """
         Look up for phrase in samples data, exact search.
         """
-        return self._fake_lookup(phrase)
+        return self._fake_lookup(phrase=phrase)
     
-    def match(self, phrase =""):
+    def match(self, phrase=""):
         """
         Look up for phrase in samples data, approximative search.
         return a list of inflections dict with similarity score.
         """
         # tokenize phrase
         phrase_nm = araby.strip_tashkeel(phrase)
-        tokens = araby.tokenize(phrase_nm)
-        # remove duplicated tokesn
-        tokens = list(set(tokens))
         # get all lemmas
         tokens = self._get_phrase_lemmas(phrase_nm)
+        candidates_doc = []
         candidates_phrases = []
         # look up for all phrases containing tokens
         for tok in tokens:
-            candidates_phrases.extend(self.index.get(tok,[]))
-        candidates_phrases = list(set(candidates_phrases))
-
+            candidates_doc.extend(self.index.get(tok, []))
+        candidates_doc = list(set(candidates_doc))
         # order candidate_phrases according to their frequency
         # more a phrase contains tokens it will be selected
         # ~ phrase_frequency = dict(collections.Counter(candidates_phrases))
         candidates_inflections = []
-        for cand_phrase in candidates_phrases:
-        # for cand_phrase in phrase_frequency:
+        for cand_id in candidates_doc:
             # add frequency for each phrase
-            data_inflect = copy.deepcopy(self.data.get(cand_phrase, {}))
+            data_inflect = copy.deepcopy(self.data.get(cand_id, {}))
+            cand_phrase = data_inflect.get("unvocalized","")
             data_inflect["freq"] = self._similar(cand_phrase, phrase_nm)
         # data_inflect["freq"] = round(phrase_frequency.get(cand_phrase, 0)*100//len(tokens))
             data_inflect["checked"] = True
@@ -133,42 +147,44 @@ class SamplesDB():
         result_list = copy.deepcopy(newlist)
         return result_list
         # return self._fake_match(phrase)
-    def _similar(self, a, b):
+
+    @staticmethod
+    def _similar(a, b):
         """
         return similarity between candidate phrase and given phrase
         """
         sim = SequenceMatcher(None, a, b).ratio()
         return round(sim*100)
 
-    def _fake_lookup(self, phrase):
+    @staticmethod
+    def _fake_lookup(phrase):
         """
         Look up for phrase in samples data, exact search.
         Used just for testing
         """ 
-        return [{"phrase":phrase,
-            "inflection": "إعراب الجملة",
-        },
+        return [{"phrase": phrase,
+                "inflection": "إعراب الجملة", },
                 {"phrase": phrase,
                  "inflection": "2إعراب الجملة",
                  },
                 ]
-        
-    def _fake_match(self, phrase):
+
+    @staticmethod
+    def _fake_match(phrase):
         """
         Look up for phrase in samples data, approximative search.
         return a list of inflections dict with similarity score.
         """
-        return [{"phrase":phrase+"1",
-            "inflection": "إعراب الجملة",
-        }    ,
-        {"phrase":phrase+"2",
-            "inflection": "إعراب الجملة",
-        }   ,       
-        ]
+        return [{"phrase": phrase+"1",
+                 "inflection": "إعراب الجملة", },
+                {"phrase": phrase+"2",
+                 "inflection": "إعراب الجملة", }, ]
         
-def main(args):
+
+def main():
     return 0
+
 
 if __name__ == '__main__':
     import sys
-    sys.exit(main(sys.argv))
+    sys.exit(main())

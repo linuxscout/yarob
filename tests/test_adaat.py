@@ -11,11 +11,32 @@ class TestAdaatCase(unittest.TestCase):
     def setUp(self) :
         self.inflector = tagInflector()
         pass
+
+    def _extract_inflect(self, inflct):
+        """
+        A temporary function to split inflect string output from Mishkal into
+        tagcode, inflect_string, taglist
+        """
+        # Mishkal give an inflect string like this
+        # '[---;------B;---]{}', 'STOPWORD:حرف::::حرف:إن و أخواتها:مبني:ناصب:T1G0N1'
+        fields = inflct.split("<br/>")
+        tagcode= inflect_string = taglist = ""
+        if len(fields)>=2:
+            taglist = fields[1].split(":")
+            x = re.search(r"(?<=\[)(.)+(?=\])", fields[0])
+            if x:
+                tagcode = x.group()
+            x  = re.search(r"(?<=\{)(.)+(?=\})", fields[0])
+            if x:
+                inflect_string = x.group()
+        return tagcode, inflect_string, taglist
+
     def test_lookup(self):
         """
         test create index
         """
         self.assertEqual(True, True)  # add assertion here
+
     def test_inflect(self):
         """
         test create index
@@ -23,6 +44,7 @@ class TestAdaatCase(unittest.TestCase):
         phrase = "ليت الولد جميل"
         results = adaat.auto_inflect(phrase)
         pprint.pprint(results)
+        print(len(results))
         self.assertEqual(True, True)  # add assertion here
 
     @unittest.skip("To do")
@@ -55,26 +77,7 @@ class TestAdaatCase(unittest.TestCase):
         phrase = "يلعب الولد ويجري بالكرتين"
         word_features_table = adaat.auto_inflect(phrase, suggests=True)
         pprint.pprint(word_features_table)
-        self.assertEqual(True, False)  # add assertion here
-
-    def _extract_inflect(self, inflct):
-        """
-        A temporary function to split inflect string output from Mishkal into
-        tagcode, inflect_string, taglist
-        """
-        # Mishkal give an inflect string like this
-        # '[---;------B;---]{}', 'STOPWORD:حرف::::حرف:إن و أخواتها:مبني:ناصب:T1G0N1'
-        fields = inflct.split("<br/>")
-        tagcode= inflect_string = taglist = ""
-        if len(fields)>=2:
-            taglist = fields[1].split(":")
-            x = re.search(r"(?<=\[)(.)+(?=\])", fields[0])
-            if x:
-                tagcode = x.group()
-            x  = re.search(r"(?<=\{)(.)+(?=\})", fields[0])
-            if x:
-                inflect_string = x.group()
-        return tagcode, inflect_string, taglist
+        self.assertEqual(len(word_features_table), 4, " result size not equal")  # add assertion here
 
     def test_highlite(self):
         """
@@ -83,9 +86,10 @@ class TestAdaatCase(unittest.TestCase):
         sample_phrase = "أكل الوَلد تفاحة من يد أمه"
         input_phrase = "الولدُ يلعب أمه في"
         res_phrase  = adaat.highlite(sample_phrase, input_phrase)
+        highlighted_phrase = """أكل <span class="diff-mark">الوَلد</span> تفاحة من يد <span class="diff-mark">أمه</span>"""
         print(sample_phrase)
         print(input_phrase)
         print(res_phrase)
-        self.assertEqual(True, False)  # add assertion here
+        self.assertEqual(res_phrase, highlighted_phrase)  # add assertion here
 if __name__ == '__main__':
     unittest.main()

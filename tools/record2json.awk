@@ -18,6 +18,8 @@ BEGIN {
     phrase = $1
 #    phrase_nm = phrase
     # remove numbers and symbols in begining and ending
+    # clean embiddign marks
+    gsub(/\xe2\x80\xaa|\xe2\x80\xab|\xe2\x80\xac/, "", phrase)
     # remove tatweel every where
     gsub(/\xd9\x80/, "", phrase)
     # remove symbols every where
@@ -29,7 +31,7 @@ BEGIN {
     # remove diacritics + tatweel
     gsub(/\xd9\x8b|\xd9\x8c|\xd9\x8d|\xd9\x8e|\xd9\x8f|\xd9\x90|\xd9\x91|\xd9\x92|\xd9\xb0/, "",phrase_nm)
     inflection  = $2
-    for (i=3; i<=NF; i++) {
+    for (i=2; i<=NF; i++) {
         inflection = inflection "\\n" $i
     }
 
