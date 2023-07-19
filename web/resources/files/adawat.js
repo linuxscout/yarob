@@ -1146,7 +1146,10 @@ var  lookup_click = function(e) {
         // set classes
 //        div_item.setAttribute('class', "vocalized");
         div_phrase.setAttribute('class', "input_phrase");
-        div_inflect.setAttribute('class', "inflect");
+        div_phrase.setAttribute('data-toggle', "collapse");
+        div_phrase.setAttribute('data-target', "#collapseExample"+i);
+        div_inflect.setAttribute('class', "inflect collapse");
+        div_inflect.setAttribute("id", "collapseExample"+i);
         div_extra.setAttribute('class', "extra");
 //        span.setAttribute('class', item.tag);
         div_phrase.innerHTML = item.phrase;
@@ -1186,6 +1189,7 @@ var  lookup_click = function(e) {
         btn3.setAttribute('class',"btn btn-info btn-xs")
         var glyph = document.createElement('span')
         glyph.setAttribute("class", "glyphicon glyphicon-floppy-disk")
+        glyph.setAttribute("id", "copy")
         btn3.appendChild(glyph);
 //        btn3.appendChild(document.createTextNode( " نسخ"));
         btn3.setAttribute("title", "نسخ");
@@ -1233,11 +1237,12 @@ var  lookup_click = function(e) {
 
         // To do add more flags
         div_item.appendChild(div_phrase);
+        div_inflect.appendChild(div_extra);
         div_item.appendChild(div_inflect);
-        div_item.appendChild(div_extra);
-        var hr =  document.createElement('hr');
-
-        div_item.appendChild(hr);
+//        div_item.appendChild(div_extra);
+//        var hr =  document.createElement('hr');
+//
+//        div_item.appendChild(hr);
 
       $("#result").append(div_item);
       }
