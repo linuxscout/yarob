@@ -20076,3 +20076,6 @@ SAMPLES ={
         'unvocalized': 'قم للأستاذ احتراما'},
         
 }
+if __name__=="__main__":
+    import json
+    print(json.dumps(list(SAMPLES.values()), ensure_ascii=False))

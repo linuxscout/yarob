@@ -148,6 +148,12 @@ class SamplesDB:
         return result_list
         # return self._fake_match(phrase)
 
+    def get_all(self,options={}):
+        """
+        return Data
+        """
+        return copy.deepcopy(samples_const.SAMPLES)
+
     @staticmethod
     def _similar(a, b):
         """

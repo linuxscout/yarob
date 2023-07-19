@@ -60,6 +60,9 @@ def DoAction(text, action, options = {}):
     elif action == "Inflect":
         lastmark = options.get('lastmark', "0")    
         return auto_inflect(text, lastmark, suggests=True)
+    elif action == "GetAll":
+        # lastmark = options.get('lastmark', "0")
+        return get_all(options)
     else:
 
         return text
@@ -137,7 +140,27 @@ def lookup_inflect(text, last_mark=""):
     for res in results:
         # a  dict contains keys : phrase, inflection, freq
         res["inflection"] = res["inflection"].replace("\n","<br/>")
+        res["inflection"] = res["inflection"].replace(".",".<br/>")
         res["phrase"] = highlite(res["phrase"], text)
+        list_result.append(res)
+
+    return list_result
+
+def get_all(options={}):
+    """
+    Lookup for similar texts and give their inflections
+    """
+    # word_list = araby.tokenize(text)
+
+    db =  samplesdb.SamplesDB()
+    results = db.get_all()
+    # results = db.lookup(text)
+
+    list_result = []
+    for res in list(results.values()):
+        # a  dict contains keys : phrase, inflection, freq
+        res["inflection"] = res["inflection"].replace("\n","<br/>")
+        res["inflection"] = res["inflection"].replace(".",".<br/>")
         list_result.append(res)
 
     return list_result
