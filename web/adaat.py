@@ -139,8 +139,9 @@ def lookup_inflect(text, last_mark=""):
     list_result = []
     for res in results:
         # a  dict contains keys : phrase, inflection, freq
-        res["inflection"] = res["inflection"].replace("\n","<br/>")
-        res["inflection"] = res["inflection"].replace(".",".<br/>")
+        # res["inflection"] = res["inflection"].replace("\n","<br/>")
+        # res["inflection"] = res["inflection"].replace(".",".<br/>")
+        res["inflection"] = highlight_inflect(res["inflection"])
         res["phrase"] = highlite(res["phrase"], text)
         list_result.append(res)
 
@@ -165,17 +166,22 @@ def get_all(options={}):
 
     return list_result
 
-# def auto_inflect(text, lastmark=""):
-#     """
-#     Generate Inflection for given text
-#     """
-#     cpath = os.path.join(os.path.dirname(__file__), '../tmp/')
-#     vocalizer = ArabicVocalizer.TashkeelClass(mycache_path = cpath)
-#     #~ vocalizer.disable_cache()
-#     if lastmark == "0" or not lastmark:
-#         vocalizer.disable_last_mark()
-#     vocalized_dict = vocalizer.tashkeel_ouput_html_suggest(text)
-#     return vocalized_dict
+def highlight_inflect(text):
+    """
+    High light inflection
+    """
+    hilited_lines = []
+    lines = text.split(".")
+    for line in lines:
+        if ":" in line:
+            parts = line.split(":")
+            hilited_lines.append("<strong>%s</strong>: "%parts[0] + ":".join(parts[1:]))
+        elif line.startswith("وجملة") or line.startswith("والجملة"):
+            hilited_lines.append(line.replace("والجملة", "<strong>والجملة</strong>"))
+        else:
+            hilited_lines.append(line)
+    return ".<br/>".join(hilited_lines)
+
 
 def auto_inflect(text, lastmark="", suggests=False):
     """
