@@ -1,0 +1,159 @@
+<!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
+<!--
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso16.css" /> 
+-->
+
+<!--Font Awesome (added because you use icons in your prepend/append)-->
+<!--
+<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+-->
+<link href="resources/files/favicon1.png" rel="icon" type="image/png">
+<link href="resources/files/adawatstyle.css" rel="stylesheet">
+<link href="resources/files/xzero-rtl/css/bootstrap-arabic.min.css" rel="stylesheet">
+<!-- Inline CSS based on choices in "Settings" tab -->
+<style>.bootstrap-iso .form-group button, .bootstrap-iso form input.form-control, .bootstrap-iso form textarea.form-control, .bootstrap-iso form select.form-control{-webkit-border-radius: 0 !important;-moz-border-radius: 0; border-radius: 0;}.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif; color: #9212fd}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: #ffffff !important;} .bootstrap-iso .btn-custom{background: #9212fd} .bootstrap-iso .btn-custom:hover{background: #7e00e9;}.bootstrap-iso .form-control:focus { border-color: #9212fd;  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(146, 18, 253, 0.6); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(146, 18, 253, 0.6);} .asteriskField{color: red;}.bootstrap-iso form .input-group-addon {color:#555555; background-color: #eeeeee; border-radius: 0px; padding-left:12px}</style>
+
+<!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+<div class="bootstrap-iso">
+ <div class="container-fluid">
+  <div class="row">
+   <div class="col-md-6 col-sm-6 col-xs-12">
+    <form method="post">
+     <div class="form-group ">
+      <label class="control-label requiredField" for="id_phrase">
+       معرف
+       <span class="asteriskField">
+        *
+       </span>
+      </label>
+      <input class="form-control" id="id_phrase" name="id_phrase" type="text"/>
+     </div>
+     <div class="form-group ">
+      <label class="control-label requiredField" for="input_phrase">
+       جملة
+       <span class="asteriskField">
+        *
+       </span>
+      </label>
+      <input class="form-control" id="input_phrase" name="input_phrase" type="text"/>
+      <span class="help-block" id="hint_input_phrase">
+       اكتب جملة هنا لإعرابها
+      </span>
+     </div>
+     <div class="form-group ">
+      <label class="control-label requiredField" for="textarea">
+       إعراب
+       <span class="asteriskField">
+        *
+       </span>
+      </label>
+      <textarea class="form-control" cols="40" id="textarea" name="textarea" rows="10"></textarea>
+      <span class="help-block" id="hint_textarea">
+       أدخل إعراب كل كلمة على حدة، ضع نقطتين بعد كل كلمة
+ضع إعراب الجمل في أول السطر
+      </span>
+     </div>
+     <div class="form-group ">
+      <label class="control-label " for="source">
+       مصدر
+      </label>
+      <input class="form-control" id="source" name="source" type="text"/>
+      <span class="help-block" id="hint_source">
+       مصدر الجملة: رقم الآية والسورة، اسم الشاعر للبيت
+      </span>
+     </div>
+     <div class="form-group ">
+      <label class="control-label " for="type">
+       نوع الجملة المعربة
+      </label>
+      <select class="select form-control" id="type" name="type">
+       <option selected="selected" value="">
+       </option>
+       <option value="قرآن">
+        قرآن
+       </option>
+       <option value="حديث">
+        حديث
+       </option>
+       <option value="شعر">
+        شعر
+       </option>
+       <option value="حكمة">
+        حكمة
+       </option>
+       <option value="مقولة">
+        مقولة
+       </option>
+      </select>
+      <span class="help-block" id="hint_type">
+       نوع الجملة: قرآن، حديث، حكمة، شعر، مقولة
+      </span>
+     </div>
+     <div class="form-group ">
+      <label class="control-label " for="select">
+       الحالة
+      </label>
+      <select class="select form-control" id="select" name="select">
+       <option value="مسودة">
+        مسودة
+       </option>
+       <option value="مراجع">
+        مراجع
+       </option>
+       <option value="للحذف">
+        للحذف
+       </option>
+       <option value="محذوف">
+        محذوف
+       </option>
+       <option value="للمراجعة">
+        للمراجعة
+       </option>
+      </select>
+      <span class="help-block" id="hint_select">
+       حالة الإدخال الحالي: مراجع، مسودة، محذوف،
+      </span>
+     </div>
+     <div class="form-group ">
+      <label class="control-label " for="reference">
+       مرجع
+      </label>
+      <div class="input-group">
+       <div class="input-group-addon">
+        <i class="fa fa-link">
+        </i>
+       </div>
+       <input class="form-control" id="reference" name="reference" type="text"/>
+      </div>
+      <span class="help-block" id="hint_reference">
+       مرجع إعراب الجملة، موقع أو كتاب
+      </span>
+     </div>
+     <div class="form-group ">
+      <label class="control-label " for="date">
+       تاريخ التحديث
+      </label>
+      <input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text"/>
+     </div>
+     <div class="form-group ">
+      <label class="control-label " for="keywords">
+       أصول
+      </label>
+      <input class="form-control" id="keywords" name="keywords" type="text"/>
+      <span class="help-block" id="hint_keywords">
+       أصول الكلمات الواردة في الجملة
+      </span>
+     </div>
+     <div class="form-group">
+      <div>
+       <button class="btn btn-custom btn-lg" name="submit" type="submit">
+        Send!
+       </button>
+      </div>
+     </div>
+    </form>
+   </div>
+  </div>
+ </div>
+</div>
+

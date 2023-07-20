@@ -1,0 +1,61 @@
+<!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
+<!--
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso16.css" /> 
+-->
+
+<!--Font Awesome (added because you use icons in your prepend/append)-->
+<!--
+<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+-->
+<link href="resources/files/favicon1.png" rel="icon" type="image/png">
+<link href="resources/files/adawatstyle.css" rel="stylesheet">
+<link href="resources/files/xzero-rtl/css/bootstrap-arabic.min.css" rel="stylesheet">
+<!-- Inline CSS based on choices in "Settings" tab -->
+<style>.bootstrap-iso .form-group button, .bootstrap-iso form input.form-control, .bootstrap-iso form textarea.form-control, .bootstrap-iso form select.form-control{-webkit-border-radius: 0 !important;-moz-border-radius: 0; border-radius: 0;}.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif; color: #9212fd}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: #ffffff !important;} .bootstrap-iso .btn-custom{background: #9212fd} .bootstrap-iso .btn-custom:hover{background: #7e00e9;}.bootstrap-iso .form-control:focus { border-color: #9212fd;  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(146, 18, 253, 0.6); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(146, 18, 253, 0.6);} .asteriskField{color: red;}.bootstrap-iso form .input-group-addon {color:#555555; background-color: #eeeeee; border-radius: 0px; padding-left:12px}</style>
+<div class="bootstrap-iso">
+ <div class="container-fluid">
+  <div class="row">
+   <div class="col-md-6 col-sm-6 col-xs-12">
+    <form method="post">
+     <div class="form-group ">
+      <label class="control-label requiredField" for="name">
+       الاسم
+       <span class="asteriskField">
+        *
+       </span>
+      </label>
+      <input class="form-control" id="name" name="name" type="text"/>
+     </div>
+     <div class="form-group ">
+      <label class="control-label requiredField" for="email">
+       البريد الاكتروني
+       <span class="asteriskField">
+        *
+       </span>
+      </label>
+      <input class="form-control" id="email" name="email" type="text"/>
+     </div>
+     <div class="form-group ">
+      <label class="control-label " for="subject1">
+       موضوع
+      </label>
+      <input class="form-control" id="subject1" name="subject1" type="text"/>
+     </div>
+     <div class="form-group ">
+      <label class="control-label " for="message">
+       رسالة
+      </label>
+      <textarea class="form-control" cols="40" id="message" name="message" rows="10"></textarea>
+     </div>
+     <div class="form-group">
+      <div>
+       <button class="btn btn-custom btn-lg" name="submit" type="submit">
+    أرسل
+       </button>
+      </div>
+     </div>
+    </form>
+   </div>
+  </div>
+ </div>
+</div>

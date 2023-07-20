@@ -1,0 +1,68 @@
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <title>بدون اسم</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="DataTables/datatables.css" />
+    <script src="DataTables/datatables.js"></script>
+</head>
+
+<body>
+<table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>الرقم</th>
+                <th>الجملة</th>
+                <th>إعرابها</th>
+                <th>نوع</th>
+                <th>حالة</th>
+                <th>مصدر</th>
+                <th>مرجع</th>
+                <th>تاريخ الإضافة</th>                     
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>الرقم</th>
+                <th>الجملة</th>
+                <th>إعرابها</th>
+                <th>نوع</th>
+                <th>حالة</th>
+                <th>مصدر</th>
+                <th>مرجع</th>
+                <th>تاريخ الإضافة</th>                
+            </tr>
+        </tfoot>
+    </table>
+    <script source=javascript>
+    $.fn.dataTable.ext.errMode = 'throw';
+    new DataTable('#example', {
+    ajax: {
+        url: 'http://127.0.0.1:5000/ajaxGet?text=&action=GetAll',
+        dataSrc: 'result'
+    },
+    columns: [
+        { data: 'id' },
+        { data: 'phrase' },
+        { data: 'inflection' },
+        { data: 'type' },
+        
+        { data: 'state' },
+        { data: 'source' },
+        { data: 'reference' },
+        { data: 'date'}
+    ],
+    language: {
+        url: 'locales/ar.json'
+    }
+});
+</script>   
+</body>
+
+</html>

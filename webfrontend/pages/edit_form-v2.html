@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Form</title>
+    <link href="resources/files/favicon1.png" rel="icon" type="image/png">
+<link href="resources/files/adawatstyle.css" rel="stylesheet">
+<link href="resources/files/xzero-rtl/css/bootstrap-arabic.min.css" rel="stylesheet">
+<!--
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+-->
+  </head>
+  <body>
+    <form>
+      <div class="form-group row">
+        <label for="id_phrase" class="col-3 col-form-label">معرّف</label> 
+        <div class="col-9">
+          <input id="id_phrase" name="id_phrase" placeholder="(automatic)" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="phrase" class="col-3 col-form-label">جملة للإعراب</label> 
+        <div class="col-9">
+          <input id="phrase" name="phrase" placeholder="اكتب جملة للإعراب" type="text" required="required" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inflection" class="col-3 col-form-label">إعراب الجملة</label> 
+        <div class="col-9">
+          <textarea id="inflection" name="inflection" cols="40" rows="5" aria-describedby="inflectionHelpBlock" class="form-control"></textarea> 
+          <span id="inflectionHelpBlock" class="form-text text-muted">أدخل هنا إعراب كل كلمة على حدى</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="phrase_type" class="col-3 col-form-label">نوع الجملة</label> 
+        <div class="col-9">
+          <select id="phrase_type" name="phrase_type" aria-describedby="phrase_typeHelpBlock" class="custom-select">
+            <option value=""></option>
+            <option value="قرآن">قرآن</option>
+            <option value="حديث">حديث</option>
+            <option value="شعر">شعر</option>
+            <option value="حكمة">حكمة</option>
+            <option value="مقولة">مقولة</option>
+          </select> 
+          <span id="phrase_typeHelpBlock" class="form-text text-muted">نوع الجملة: قرآن، حديث، شعر، حكمة، إلخ</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="source" class="col-3 col-form-label">مصدر</label> 
+        <div class="col-9">
+          <input id="source" name="source" placeholder="مصدر الجملة المراد إعرابها، مثلا اسم الشاعر، أو رقم الآية والسورة" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="state" class="col-3 col-form-label">حالة</label> 
+        <div class="col-9">
+          <select id="state" name="state" aria-describedby="stateHelpBlock" class="custom-select">
+            <option value="مسودة">مسودة</option>
+            <option value="للمراجعة">للمراجعة</option>
+            <option value="مراجع">مراجع</option>
+            <option value="للحذف">للحذف</option>
+            <option value="محذوف">محذوف</option>
+          </select> 
+          <span id="stateHelpBlock" class="form-text text-muted">حالة الإعراب: مسودة، للمراجعة، مراجع، للحدث، محذوف</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="date" class="col-3 col-form-label">تاريخ التحديث</label> 
+        <div class="col-9">
+          <input id="date" name="date" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="keywords" class="col-3 col-form-label">أصول</label> 
+        <div class="col-9">
+          <input id="keywords" name="keywords" placeholder="أصول الكلمات (آلي)" type="text" aria-describedby="keywordsHelpBlock" class="form-control"> 
+          <span id="keywordsHelpBlock" class="form-text text-muted">لا تكتب شيئا</span>
+        </div>
+      </div> 
+      <div class="form-group row">
+        <div class="offset-3 col-9">
+          <button name="submit" type="submit" class="btn btn-primary">إرسال</button>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>
