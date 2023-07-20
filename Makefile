@@ -61,6 +61,7 @@ samples_build2:
 	python3 tests/output/example_i3rabxi3rab.py
 
 server:
+	echo "run server on http://127.0.0.1:5000/"
 	cd web; python3 yarob_flask.py
 test:
 	#cd tests;python3 -m pytest test_*

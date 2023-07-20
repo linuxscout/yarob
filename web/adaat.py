@@ -207,10 +207,13 @@ def auto_inflect(text, lastmark="", suggests=False):
                 tags = rsdict.get_tags()
                 typ = rsdict.get_type()
                 tags = ":".join([tags, typ])
-                tagscode = tagcoder.encode(rsdict.get_tags().split(":"))
+                # build tagcode string
+                tagscode = tagcoder.encode(tags.split(":"))
+                # build inflection string
                 inflect = inflector.inflect(tagscode)
+                # stoe date
                 new_dict = {"vocalized": rsdict.get_vocalized(),
-                            "type": rsdict.get_type(),
+                            "type": typ,
                             "tags": tags,
                             "tagscode": tagscode,
                             "inflect":inflect,
