@@ -25,7 +25,7 @@
 import os.path
 import sys
 import random
-
+import re
 # external
 import mishkal.tashkeel as ArabicVocalizer
 import pyarabic.araby as araby
@@ -223,8 +223,16 @@ def auto_inflect(text, lastmark="", suggests=False):
                 else :
                     word_features_table[key][vocalized] = [new_dict,]
         for voc_dict in vocalized_listdict:
-            chosen_nm = araby.strip_tashkeel(voc_dict.get("chosen",''))
-            voc_dict['features'] = word_features_table.get(chosen_nm, {})
+            chosen = voc_dict.get("chosen",'')
+            chosen_nm = araby.strip_tashkeel(chosen)
+            voc_dict['features'] = word_features_table.get(chosen_nm, [])
+            # temporary until updating Mishkal
+            tagscode, _ , taglist = extract_inflect(voc_dict['inflect'])
+            new_inflect_string = inflector.inflect(tagscode)
+            voc_dict['inflect'] += "[[%s]]"%new_inflect_string
+            # remove empty
+            taglist = [t for t in taglist if t]
+            voc_dict['inflect'] = "%s<br/>[%s]//%s"%(new_inflect_string, tagscode, "، ".join(taglist))
 
     # return word_features_table
     return vocalized_listdict
@@ -247,6 +255,25 @@ def highlite(output_ph, input_ph):
             res_tokens.append(outtok)
     return " ".join(res_tokens)
 
+
+def extract_inflect(inflct):
+    """
+    A temporary function to split inflect string output from Mishkal into
+    tagcode, inflect_string, taglist
+    """
+    # Mishkal give an inflect string like this
+    # '[---;------B;---]{}', 'STOPWORD:حرف::::حرف:إن و أخواتها:مبني:ناصب:T1G0N1'
+    fields = inflct.split("<br/>")
+    tagcode= inflect_string = taglist = ""
+    if len(fields)>=2:
+        taglist = fields[1].split(":")
+        x = re.search(r"(?<=\[)(.)+(?=\])", fields[0])
+        if x:
+            tagcode = x.group()
+        x  = re.search(r"(?<=\{)(.)+(?=\})", fields[0])
+        if x:
+            inflect_string = x.group()
+    return tagcode, inflect_string, taglist
 def main(args):
     return 0
 

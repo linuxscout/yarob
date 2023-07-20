@@ -12,24 +12,6 @@ class TestAdaatCase(unittest.TestCase):
         self.inflector = tagInflector()
         pass
 
-    def _extract_inflect(self, inflct):
-        """
-        A temporary function to split inflect string output from Mishkal into
-        tagcode, inflect_string, taglist
-        """
-        # Mishkal give an inflect string like this
-        # '[---;------B;---]{}', 'STOPWORD:حرف::::حرف:إن و أخواتها:مبني:ناصب:T1G0N1'
-        fields = inflct.split("<br/>")
-        tagcode= inflect_string = taglist = ""
-        if len(fields)>=2:
-            taglist = fields[1].split(":")
-            x = re.search(r"(?<=\[)(.)+(?=\])", fields[0])
-            if x:
-                tagcode = x.group()
-            x  = re.search(r"(?<=\{)(.)+(?=\})", fields[0])
-            if x:
-                inflect_string = x.group()
-        return tagcode, inflect_string, taglist
 
     def test_lookup(self):
         """
@@ -62,7 +44,7 @@ class TestAdaatCase(unittest.TestCase):
             # Mishkal give an inflect string like this
             # '[---;------B;---]{}', 'STOPWORD:حرف::::حرف:إن و أخواتها:مبني:ناصب:T1G0N1'
 
-            tagscode, inflect_string, taglist = self._extract_inflect(inflct)
+            tagscode, inflect_string, taglist = adaat.extract_inflect(inflct)
             new_inflect_string = self.inflector.inflect(tagscode)
             print(chosen, inflct)
             print(tagscode, inflect_string, taglist)
