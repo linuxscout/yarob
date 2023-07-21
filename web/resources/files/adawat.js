@@ -175,16 +175,74 @@ var random_click = function(e) {
     });
   }
 
+// signal a problem
+var signal_click = function(e) {
+    e.preventDefault()
+    $.getJSON(script + "/ajaxGet", {
+      text: "",
+      action: "Signal",
+      problem: document.signalForm.signal.value,
+      message : document.signalForm.message.value
+    }, function(data) {
+    alert("شكرا لك على التنبيه،  سنراجع المشكلة."
+    +"\n"+ data.result);
+    });
+  }
+
+ // aks for expert button
+var ask_click = function(e) {
+    e.preventDefault()
+    $.getJSON(script + "/ajaxGet", {
+      text: document.askForm.phrase.value,
+      action: "Ask",
+      email: document.askForm.email.value,
+      askby : document.askForm.askby.value
+    }, function(data) {
+    alert("شكرا لك، سنجيبك في أقرب وقت."
+    +"\n"+ data.result);
+    });
+  }
+
+ // Contact Form
+var contact_click = function(e) {
+    e.preventDefault()
+    $.getJSON(script + "/ajaxGet", {
+      text: "",
+      action: "Contact",
+      name: document.contactForm.name.value,
+      subject: document.contactForm.subject.value,
+      email: document.contactForm.email.value,
+      message : document.contactForm.message.value
+    }, function(data) {
+    alert("شكرا لك على رسالتك،."
+    +"\n"+ data.result);
+    });
+  }
+
+
+ // Edit Form
+var edit_click = function(e) {
+    e.preventDefault()
+    $.getJSON(script + "/ajaxGet", {
+      text: "",
+      action: "Edit",
+      id_phrase: document.editForm.id_phrase.value,
+      phrase: document.editForm.phrase.value,
+      inflection: document.editForm.inflection.value,
+      phrase_type: document.editForm.phrase_type.value,
+      source: document.editForm.source.value,
+      state: document.editForm.state.value,
+      date: document.editForm.date.value,
+      keywords: document.editForm.keywords.value,
+    }, function(data) {
+    alert("شكرا لك على مساهمتك،."
+    +"\n"+ data.result);
+    });
+  }
+
 var stripharakat_click = function(e) {
         e.preventDefault()
-    //  $("#result").html("<pre>TATAH\nNTATAH</pre>");
-    $.getJSON(script + "/ajaxGet", {
-      text: document.NewForm.InputText.value,
-      action: "StripHarakat"
-    }, function(d) {
-      $("#result").html("<p>" + d.result + "</p>");
-      //"#result").text(d.time);
-    });
+        $("#result").html(strip_tashkeel(document.NewForm.InputText.value));
   }
   
 //var csv2data_click = function(e) {
@@ -1049,18 +1107,6 @@ var  lookup_click = function(e) {
       action: "Lookup"
     }, function(d) {
       $("#result").html("");
-             // ask btn
-        var btn_ask = document.createElement('button')
-        btn_ask.setAttribute('class',"btn btn-primary")
-        btn_ask.setAttribute('data-toggle',"modal")
-        btn_ask.setAttribute('href',"#modal-container-ask-service")
-        var glyph = document.createElement('span')
-        glyph.setAttribute("class", "glyphicon glyphicon-send")
-        btn_ask.appendChild(glyph);
-        btn_ask.appendChild(document.createTextNode( " طلب مراجعة"));
-       $("#result").append(btn_ask)
-
-
       for (i = 0; i < d.result.length; i++) {
         item = d.result[i];
 //        console.log(i);
@@ -1222,5 +1268,13 @@ $().ready(function() {
   
   $(document).on( 'click', '#synt', inflect_click );
   $(document).on( 'click', '#lookup', lookup_click );
+
+  // forms
+  // ask for expert form
+  $(document).on( 'click', '#submit-ask', ask_click);
+  $(document).on( 'click', '#submit-signal', signal_click);
+  $(document).on( 'click', '#submit-contact', contact_click);
+  $(document).on( 'click', '#submit-edit', edit_click);
+
 });
 

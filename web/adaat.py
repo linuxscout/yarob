@@ -63,8 +63,19 @@ def DoAction(text, action, options = {}):
     elif action == "GetAll":
         # lastmark = options.get('lastmark', "0")
         return get_all(options)
+    elif action == "Ask":
+        return ask_service(options)
+    elif action == "Signal":
+        # lastmark = options.get('lastmark', "0")
+        return signal_service(options)
+    elif action == "Contact":
+        # lastmark = options.get('lastmark', "0")
+        return contact_service(options)
+    elif action == "Edit":
+        # lastmark = options.get('lastmark', "0")
+        return edit_service(options)
     else:
-
+        print(action, text, options)
         return text
 
 def build_phrase(options):        
@@ -125,6 +136,42 @@ def tashkeel2(text, lastmark):
 #             tag = 'إعراب الكلمة'
 #             list_result.append({'word':word, 'tag': tag})
 #         return list_result
+def highlite(output_ph, input_ph):
+    """
+    Highlight words in output which are similar to words in input
+    """
+    # compare out tokens to in tokens without diacritics
+    in_tokens = araby.tokenize(input_ph, morphs=[araby.strip_tashkeel])
+    # keep diacritics to display string properly
+    out_tokens = araby.tokenize(output_ph)
+    res_tokens = []
+    for outtok in out_tokens:
+        outtok_nm = araby.strip_tashkeel(outtok)
+        if outtok_nm in in_tokens:
+            res_tokens.append('<span class="diff-mark">%s</span>'%outtok)
+        else:
+            res_tokens.append(outtok)
+    return " ".join(res_tokens)
+
+
+def extract_inflect(inflct):
+    """
+    A temporary function to split inflect string output from Mishkal into
+    tagcode, inflect_string, taglist
+    """
+    # Mishkal give an inflect string like this
+    # '[---;------B;---]{}', 'STOPWORD:حرف::::حرف:إن و أخواتها:مبني:ناصب:T1G0N1'
+    fields = inflct.split("<br/>")
+    tagcode= inflect_string = taglist = ""
+    if len(fields)>=2:
+        taglist = fields[1].split(":")
+        x = re.search(r"(?<=\[)(.)+(?=\])", fields[0])
+        if x:
+            tagcode = x.group()
+        x  = re.search(r"(?<=\{)(.)+(?=\})", fields[0])
+        if x:
+            inflect_string = x.group()
+    return tagcode, inflect_string, taglist
 
 def lookup_inflect(text, last_mark=""):
     """
@@ -143,6 +190,7 @@ def lookup_inflect(text, last_mark=""):
         # res["inflection"] = res["inflection"].replace(".",".<br/>")
         res["inflection"] = highlight_inflect(res["inflection"])
         res["phrase"] = highlite(res["phrase"], text)
+        res["rating"] = res.get("rating",0)
         list_result.append(res)
 
     return list_result
@@ -237,43 +285,58 @@ def auto_inflect(text, lastmark="", suggests=False):
     # return word_features_table
     return vocalized_listdict
 
+def ask_service(options):
+    """
+    Ask for expert
+    """
+    # To Do
+    phrase  = options.get("text","")
+    email  = options.get("email","")
+    response_method  = options.get("askby","")
+    # print("TODO, Ask action is not implemented yet " + repr(options))
+    return "TODO, Ask action is not implemented yet " + repr(options)
 
-def highlite(output_ph, input_ph):
+def signal_service(options):
     """
-    Highlight words in output which are similar to words in input
+    Signal an inflection for some reasons
     """
-    # compare out tokens to in tokens without diacritics
-    in_tokens = araby.tokenize(input_ph, morphs=[araby.strip_tashkeel])
-    # keep diacritics to display string properly
-    out_tokens = araby.tokenize(output_ph)
-    res_tokens = []
-    for outtok in out_tokens:
-        outtok_nm = araby.strip_tashkeel(outtok)
-        if outtok_nm in in_tokens:
-            res_tokens.append('<span class="diff-mark">%s</span>'%outtok)
-        else:
-            res_tokens.append(outtok)
-    return " ".join(res_tokens)
+    # To Do
+    id_phrase  = options.get("id","")
+    phrase  = options.get("phrase","")
+    problem  = options.get("problem","")
+    message  = options.get("askby","")
+
+    # print("TODO, Signal action is not implemented yet " + repr(options))
+    return "TODO, Signal action is not implemented yet " + repr(options)
+
+def contact_service(options):
+    """
+    Contact Service
+    """
+    # To Do
+    name  = options.get("name","")
+    subject  = options.get("subject","")
+    email  = options.get("email","")
+    message  = options.get("message","")
+
+    # print("TODO, Signal action is not implemented yet " + repr(options))
+    return "TODO, Contact action is not implemented yet " + repr(options)
+
+def edit_service(options):
+    """
+    Edit Service
+    """
+    # To Do
+    name  = options.get("name","")
+    subject  = options.get("subject","")
+    email  = options.get("email","")
+    message  = options.get("message","")
+
+    # print("TODO, Signal action is not implemented yet " + repr(options))
+    return "TODO, Edit action is not implemented yet " + repr(options)
 
 
-def extract_inflect(inflct):
-    """
-    A temporary function to split inflect string output from Mishkal into
-    tagcode, inflect_string, taglist
-    """
-    # Mishkal give an inflect string like this
-    # '[---;------B;---]{}', 'STOPWORD:حرف::::حرف:إن و أخواتها:مبني:ناصب:T1G0N1'
-    fields = inflct.split("<br/>")
-    tagcode= inflect_string = taglist = ""
-    if len(fields)>=2:
-        taglist = fields[1].split(":")
-        x = re.search(r"(?<=\[)(.)+(?=\])", fields[0])
-        if x:
-            tagcode = x.group()
-        x  = re.search(r"(?<=\{)(.)+(?=\})", fields[0])
-        if x:
-            inflect_string = x.group()
-    return tagcode, inflect_string, taglist
+
 def main(args):
     return 0
 

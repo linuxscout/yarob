@@ -48,7 +48,7 @@
                         </li>
 
                         <li>
-                            <a href="/mishkal/contact"><span class="glyphicon glyphicon-envelope"></span> اتصل بنا</a>
+                            <a href="#"><span class="glyphicon glyphicon-envelope" data-toggle="modal" href="#modal-container-contact-service"> اتصل بنا</span></a>
                         </li>
                     </ul>
                 </div>
@@ -86,7 +86,7 @@
                         <a class="btn btn-info" id="tashkeel" title='تشكيل النص'>تشكيل</a>
                         <input checked class="checkbox" id="LastMark" type="checkbox" value='1'> حركة الإعراب
 
-                    <button id="more1" class="btn btn-info pull-right" data-toggle="collapse" data-target="#moresection"><span class="glyphicon glyphicon-wrench"></span> أدوات</button>
+                    <button id="more" class="btn btn-info pull-right" data-toggle="collapse" data-target="#moresection"><span class="glyphicon glyphicon-wrench"></span> أدوات</button>
                         <button class="close pull-right" id="move" title="نسخ الناتج إلى المدخل">
                             <span aria-hidden="true"><span class="glyphicon glyphicon-arrow-up form-control"></span></span>
                             <span class="sr-only">نص عشوائي</span></button>
@@ -97,8 +97,6 @@
 
 
                         <div class='collapse pull-right' id="moresection">
-<!--
-
                             <div class="btn-group">
 
                                 <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">خيارات
@@ -106,10 +104,12 @@
                                 <ul class="dropdown-menu">
                                     <li> <a id="stripharakat">إزالة</a></li>
                                     <li> <a id="reducetashkeel">اختزال</a></li>
-                                    <li> <a id="comparetashkeel">مطابقة</a></li>
-                                    <li class="disabled"> <a id="randomMaqola" title='نص عشوائي'>مقولة عشوائية</a></li>
                                 </ul>
+
+                                <button class="btn btn-primary" data-toggle="modal" href="#modal-container-ask-service" type="button">طلب مراجعة <span class="glyphicon glyphicon-send"></span></button>
                             </div>
+
+ <!--
                             <div class="btn-group">
                                 <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">استخلاص <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
@@ -322,7 +322,7 @@
         <div class="modal fade" id="modal-container-187721">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form>
+                    <form name="signalForm" action="http://127.0.0.1:5000/ajaxGet" method="get">
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal" type="button">×</button>
 
@@ -353,14 +353,18 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="other">مشكلة أخرى حدد</label> 
-    <textarea id="other" name="other" cols="40" rows="3" class="form-control"></textarea>
-  </div> 
+    <label for="other">مشكلة أخرى حدد أو تعليق</label> 
+    <textarea id="message" name="message" cols="40" rows="3" class="form-control"></textarea>
+  </div>
+
+
 
                     </div>
 
                     <div class="modal-footer">
-                        <button class="btn btn-primary" data-dismiss="modal" type="button">إرسال</button>
+                        <button class="btn btn-primary" data-dismiss="modal" type="button" id="submit-signal">أبلغ</button>
+                        <button class="btn btn-success" data-dismiss="modal"  type="button">إرسال</button>
+
                         <button class="btn btn-default" data-dismiss="modal" type="button">إغلاق</button>
                     </div>
                         </form>
@@ -368,11 +372,12 @@
             </div>
         </div>
     </section>
+
     <section id="ask-service">
         <div class="modal fade" id="modal-container-ask-service">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form>
+                    <form id="askForm" name="askForm" action="http://127.0.0.1:5000/ajaxGet?action=ask" method="get">
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal" type="button">×</button>
 
@@ -386,17 +391,18 @@
   <div class="form-group">
     <label for="phrase">                         يرجى إعراب الجملة الآتية من خبير لغوي بشري: 
                         هذه الخدمة مجانية حاليّا</label> 
+    <input id="ask-action" name="action" type="hidden">
     <input id="phrase" name="phrase" placeholder="اكتب جملة للإعراب" type="text" required="required" class="form-control">
   </div>
   <div class="form-group">
     <label>يرجى إبلاغي بتوفر النتيجة:</label> 
     <div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input name="ask-by" id="ask-by_0" type="radio" class="custom-control-input" value="site"> 
+        <input name="askby" id="ask-by_0" type="radio" class="custom-control-input" value="site"> 
         <label for="ask-by_0" class="custom-control-label">عبر الموقع</label>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input name="ask-by" id="ask-by_1" type="radio" class="custom-control-input" value="email"> 
+        <input name="askby" id="ask-by_1" type="radio" class="custom-control-input" value="email"> 
         <label for="ask-by_1" class="custom-control-label">بالبريد الالكتروني</label>
       </div>
     </div>
@@ -406,15 +412,71 @@
     <input id="email" name="email" type="text" class="form-control">
   </div> 
 
+                   </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-success" data-dismiss="modal" id="submit-ask" type="button">إرسال</button>
+            <button class="btn btn-default" data-dismiss="modal" type="button">إغلاق</button>
+        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
+    <section id="contact-service">
+        <div class="modal fade" id="modal-container-contact-service">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="ContactForm" name="contactForm"  method="get">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal" type="button">×</button>
 
+                        <h4 class="modal-title" id="myModalLabel2">التواصل معنا<span class=
+            "glyphicon glyphicon-question-flag"></span></h4>
                     </div>
 
-                    <div class="modal-footer">
-                        <button class="btn btn-success" data-dismiss="modal" type="button">إرسال</button>
-                        <button class="btn btn-default" data-dismiss="modal" type="button">إغلاق</button>
-                    </div>
+                    <div class="modal-body">
+
+<div class="form-group ">
+      <label class="control-label requiredField" for="name">
+       الاسم
+       <span class="asteriskField">
+        *
+       </span>
+      </label>
+      <input name="action" type="hidden" value="Contact"/>
+      <input class="form-control" id="name" name="name" type="text"/>
+     </div>
+     <div class="form-group ">
+      <label class="control-label requiredField" for="email">
+       البريد الاكتروني
+       <span class="asteriskField">
+        *
+       </span>
+      </label>
+      <input class="form-control" id="email" name="email" type="text"/>
+     </div>
+     <div class="form-group ">
+      <label class="control-label " for="subject">
+       موضوع
+      </label>
+      <input class="form-control" id="subject" name="subject" type="text"/>
+     </div>
+     <div class="form-group ">
+      <label class="control-label " for="message">
+       رسالة
+      </label>
+      <textarea class="form-control" cols="40" id="message" name="message" rows="10"></textarea>
+     </div>
+
+                   </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-success" data-dismiss="modal" id="submit-contact" type="button">إرسال</button>
+            <button class="btn btn-default" data-dismiss="modal" type="button">إغلاق</button>
+        </div>
                     </form>
                 </div>
             </div>
