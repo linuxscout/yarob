@@ -11,7 +11,10 @@
     <meta charset="UTF-8">
     <link href="resources/files/favicon1.png" rel="icon" type="image/png">
     <link href="resources/files/adawatstyle.css" rel="stylesheet">
+<!--    <link href="resources/files/bootstrap-5.0.2/css/bootstrap.min.css" rel="stylesheet">-->
     <link href="resources/files/xzero-rtl/css/bootstrap-arabic.min.css" rel="stylesheet">
+ <!-- Add Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <meta content="width=device-width, initial-scale=1" name="viewport">
 </head>
@@ -482,19 +485,20 @@
             </div>
         </div>
     </section>
-
-  <div class="container mt-5" id="CardToClone">
+<!-- THIS PArt is used to configure A RESULT Card
+-->
+  <div class="container mt-5 d-none" id="CardToClone">
   <div class="card" >
     <!-- Card Header (Clickable Title) -->
 <!--      card-header input_phrase-->
-    <div class="card-header" data-toggle="collapse" data-target="#collapseContainer" aria-expanded="true" aria-controls="collapseContainer">
+    <div class="card-header input_phrase" data-toggle="collapse" data-target="#collapseContainer" aria-expanded="true" aria-controls="collapseContainer">
       <h5 class="mb-0" id="PHRASE_CLONE">PHRASE_CLONE</h5> <!-- Replace with your RTL text -->
     </div>
     <!-- Card Body and Footer (Collapsible) -->
     <div class="collapse" id="collapseContainer">
-      <div class="card-body inflect">
+      <div class="card-body">
         <!-- Add your content here -->
-        <p id="INFLECTION_CLONE">INFLECTION_CLONE</p> <!-- Replace with your RTL text -->
+        <p id="INFLECTION_CLONE"  class="inflect">INFLECTION_CLONE</p> <!-- Replace with your RTL text -->
       </div>
       <div class="card-footer">
         <!-- Toolbar with multiple buttons -->
@@ -519,7 +523,7 @@
             <!-- Share Button -->
             <button type="button" class="btn btn-info" id="shareButton"><i class="fa fa-share"></i> مشاركة</button>
             <!-- Other buttons with icons -->
-            <button type="button" class="btn btn-danger" id="signal" data-toggle="modal"  href="#modal-container-187721"><i class="fa fa-plus"></i>إبلاغ</button>
+            <button type="button" class="btn btn-danger" id="signal" data-toggle="modal"  href="#modal-container-187721"><i class="fa fa-flag"></i>إبلاغ</button>
             <button type="button" class="btn btn-success"><i class="fa fa-check"></i> مراجع</button>
             <!-- Custom Label in Toolbar -->
             <span class="label-toolbar"><i class="fa fa-percent"></i>تشابه</span>
@@ -534,10 +538,12 @@
         var script = "http://127.0.0.1:5000";
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<!--    <script async src="resources/files/bootstrap-5.0.2/js/bootstrap.min.js"></script>-->
     <script async src="resources/files/xzero-rtl/js/bootstrap-arabic.min.js"></script>
-    
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>-->
     <script async src="resources/files/adawat.js"></script>
     </span>
 </body>
 
 </html>
+
