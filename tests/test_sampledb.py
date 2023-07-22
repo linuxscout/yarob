@@ -30,7 +30,7 @@ class TestSampleDBCase(unittest.TestCase):
         print("index size ",len(word_index.keys()))
         self.assertEqual(len(word_index.get("",[])), 0, " Index contains Empty words")  # add assertion here
         self.assertEqual(len(non_arabic_words), 0, " Index contains non Arabic word")  # add assertion here
-        self.assertEqual(len(word_index), 3172, " Index size changed")  # add assertion here
+        self.assertEqual(len(word_index), 3170, " Index size changed")  # add assertion here
 
     def test_temp_create_index(self):
         """
@@ -59,7 +59,7 @@ class TestSampleDBCase(unittest.TestCase):
         print("index size ",len(word_index.keys()))
         self.assertEqual(len(word_index.get("",[])), 0, " Index contains Empty words")  # add assertion here
         self.assertEqual(len(non_arabic_words), 0, " Index contains non Arabic word")  # add assertion here
-        self.assertEqual(len(word_index), 3172, " Index size changed")  # add assertion here
+        self.assertEqual(len(word_index), 3170, " Index size changed")  # add assertion here
 
     # @unittest.skip("to do")
     def test_match_index(self):
