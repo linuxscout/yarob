@@ -29,6 +29,120 @@ function strip_tashkeel(input) {
 function ajust_ligature(input) {
   return x = input.replace("لَا", "لاَ");
 }
+
+
+// draw Inflection area
+function draw_inflection_results(d) {
+        var text = "";
+        var id = parseInt(d.order);
+        var div_inflect =  document.createElement("div");
+        for (var i = 0; i < d.result.length; i++) {
+          item = d.result[i];
+          var currentId = id * 100 + i;
+            var pattern = /[-[\]{}()*+?.,،:\\^$|#\s]/;
+            if (!pattern.test(item.chosen)) text += " ";
+            var word_to_display = item.chosen;
+            // create a span
+            var line = document.createElement("span");
+            line.setAttribute("class", "inflect");
+//            line.appendChild(document.createTextNode(item.chosen));
+//            line.appendChild(document.createTextNode(" "));
+//            line.appendChild(document.createTextNode(item.inflect));
+
+
+            // select:
+            var select = document.createElement("select");
+            select.setAttribute("class", "inflect");
+            console.log(item.features);
+            for(const key in item.features)
+            { // draw a select for each word,
+            console.log(item.features[key]);
+            var voc_infl_list = item.features[key];
+            console.log(voc_infl_list[0]);
+
+            for(var ki =0; ki<voc_infl_list.length;ki++)
+            {
+                var option = document.createElement("option");
+                const vocalized = voc_infl_list[ki].vocalized;
+                const tagscode  = voc_infl_list[ki].tagscode;
+                const inflect =  voc_infl_list[ki].inflect;
+                if(vocalized == item.chosen)
+                    option.setAttribute("selected", "selected");
+                option.setAttribute("value", vocalized);
+                option.setAttribute("title", tagscode);
+                option.appendChild(document.createTextNode(vocalized +": " + inflect + "["+tagscode+"]"));
+                select.appendChild(option);
+            }
+            }
+
+//            text += item.chosen + "  " + item.inflect + "<br/>";
+            div_inflect.append(line);
+            div_inflect.append(select);
+            div_inflect.appendChild(document.createElement("br"));
+            $('#result').data(currentId.toString(), item);
+        }
+        // display the result
+        $("#result").append(div_inflect);
+//        $("#result").html($("#result").html() + "****************<br/><div class=\'word-inflections\'>" + text +
+//          "</div>");
+
+      }
+// draw tashkeel area
+function draw_tashkeel_results(d) {
+
+        // Grammar graph
+        //draw_graph();
+        var text = "";
+        var id = parseInt(d.order);
+        var openColocation = 0;
+        for (var i = 0; i < d.result.length; i++) {
+
+          item = d.result[i];
+          var currentId = id * 100 + i;
+//          console.log(item.chosen);
+          if (item.chosen.indexOf("~~") >= 0) { // handle collocations
+            openColocation = 0;
+            text += "</span><span class='collocation' title='دقّق تشكيل هذه العبارة'>" +
+              item.chosen.replace("~~", "");
+          } else if (item.chosen.indexOf("~") >= 0) { // handle collocations
+            if (openColocation == 0) {
+              openColocation = 1;
+              text += item.chosen.replace("~", "") +
+                " <span class='collocation' title='دقّق تشكيل هذه العبارة'>";
+            } else {
+              openColocation = 0;
+              text += "</span>" + item.chosen.replace("~", "");
+            }
+          } else {
+            var pattern = /[-[\]{}()*+?.,،:\\^$|#\s]/;
+            if (!pattern.test(item.chosen)) text += " ";
+            var word_to_display = item.chosen.replace('\n',"<br/>");
+            if (document.NewForm.LastMark.checked == 0) word_to_display = item.semi;
+            text += "<span class='vocalized' id='" + currentId + "' inflect='" + item.inflect.replace(/:+/g, ', ') +
+              "' suggest='" + item.suggest.replace(/;/g, '، ') + "' rule='" + item.rule +
+              "' link='" + item.link + "'>" + word_to_display + "</span>";
+            //~ $('#result').data(currentId.toString(), item.suggest);
+            $('#result').data(currentId.toString(), item);
+          }
+        }
+        // display the result
+        $("#loading").data(d.order, text);
+        $("#result").html($("#result").html() + "<div class=\'tashkeel\'>" + text +
+          "</div>");
+        // dela dot, to count the phrase executed
+        //~ $("#loading").html($("#loading").html().replace('.', ''));
+        //~ if ($("#loading").html().indexOf('.') < 0) { // if no dot, the work is terminated
+          //~ // redraw the text result with order
+          //~ var ordredtext = "";
+          //~ for (var j = 0; j < $("#loading").data('length'); j++) {
+            //~ ordredtext += $("#loading").data(j.toString());
+          //~ }
+          //~ console.log("oder");
+            //~ $('#result').data("count",d.result.length);
+            //~ $('#result').html("<div class=\'tashkeel\'>" + ordredtext + "</div>");
+            //~ $("#loading").hide();
+        //~ }
+      }
 //
 //function draw_graph(d){
 ////alert("Hello");
@@ -695,6 +809,8 @@ var more_click = function(e) {
     }, function(d) {$("#result").html(d.result);});
   }
 
+
+
   var tashkeel_click = function(e) {
     var collocation = 1;
     var vocalizewWordsEnds = "0";
@@ -726,62 +842,7 @@ var more_click = function(e) {
         order: i.toString(),
         lastmark: vocalizewWordsEnds
       }, function(d) {
-//        console.log(d);
-//        console.log(d.order);
-//        console.log(d.result);
-//        console.log(d.result[0].chosen);
-        // Grammar graph 
-        //draw_graph();
-        var text = "";
-        var id = parseInt(d.order);
-        var openColocation = 0;
-        for (var i = 0; i < d.result.length; i++) {
-          
-          item = d.result[i];
-          var currentId = id * 100 + i;
-//          console.log(item.chosen);
-          if (item.chosen.indexOf("~~") >= 0) { // handle collocations
-            openColocation = 0;
-            text += "</span><span class='collocation' title='دقّق تشكيل هذه العبارة'>" +
-              item.chosen.replace("~~", "");
-          } else if (item.chosen.indexOf("~") >= 0) { // handle collocations
-            if (openColocation == 0) {
-              openColocation = 1;
-              text += item.chosen.replace("~", "") +
-                " <span class='collocation' title='دقّق تشكيل هذه العبارة'>";
-            } else {
-              openColocation = 0;
-              text += "</span>" + item.chosen.replace("~", "");
-            }
-          } else {
-            var pattern = /[-[\]{}()*+?.,،:\\^$|#\s]/;
-            if (!pattern.test(item.chosen)) text += " ";
-            var word_to_display = item.chosen.replace('\n',"<br/>");
-            if (document.NewForm.LastMark.checked == 0) word_to_display = item.semi;
-            text += "<span class='vocalized' id='" + currentId + "' inflect='" + item.inflect.replace(/:+/g, ', ') +
-              "' suggest='" + item.suggest.replace(/;/g, '، ') + "' rule='" + item.rule +
-              "' link='" + item.link + "'>" + word_to_display + "</span>";
-            //~ $('#result').data(currentId.toString(), item.suggest);
-            $('#result').data(currentId.toString(), item);
-          }
-        }
-        // display the result
-        $("#loading").data(d.order, text);
-        $("#result").html($("#result").html() + "<div class=\'tashkeel\'>" + text +
-          "</div>");
-        // dela dot, to count the phrase executed
-        //~ $("#loading").html($("#loading").html().replace('.', ''));
-        //~ if ($("#loading").html().indexOf('.') < 0) { // if no dot, the work is terminated
-          //~ // redraw the text result with order
-          //~ var ordredtext = "";
-          //~ for (var j = 0; j < $("#loading").data('length'); j++) {
-            //~ ordredtext += $("#loading").data(j.toString());
-          //~ }
-          //~ console.log("oder");
-            //~ $('#result').data("count",d.result.length);
-            //~ $('#result').html("<div class=\'tashkeel\'>" + ordredtext + "</div>");
-            //~ $("#loading").hide();
-        //~ }
+      draw_tashkeel_results(d);
       });
     } // end for i intextlist
        $("#loading").hide(); 
@@ -820,49 +881,11 @@ var more_click = function(e) {
         order: i.toString(),
         lastmark: vocalizewWordsEnds
       }, function(d) {
-        console.log(d);
-        console.log(d.order);
-        console.log(d.result);
-        console.log(d.result[0].chosen);
-        // Grammar graph 
-        //draw_graph();
-        var text = "";
-        var id = parseInt(d.order);
-        var openColocation = 0;
-        for (var i = 0; i < d.result.length; i++) {
-          
-          item = d.result[i];
-          var currentId = id * 100 + i;
-//          console.log(item.chosen);
-          if (item.chosen.indexOf("~~") >= 0) { // handle collocations
-            openColocation = 0;
-            text += "</span><span class='collocation' title='دقّق تشكيل هذه العبارة'>" +
-              item.chosen.replace("~~", "");
-          } else if (item.chosen.indexOf("~") >= 0) { // handle collocations
-            if (openColocation == 0) {
-              openColocation = 1;
-              text += item.chosen.replace("~", "") +
-                " <span class='collocation' title='دقّق تشكيل هذه العبارة'>";
-            } else {
-              openColocation = 0;
-              text += "</span>" + item.chosen.replace("~", "");
-            }
-          } else {
-            var pattern = /[-[\]{}()*+?.,،:\\^$|#\s]/;
-            if (!pattern.test(item.chosen)) text += " ";
-            var word_to_display = item.chosen.replace('\n',"<br/>");
-            if (document.NewForm.LastMark.checked == 0) word_to_display = item.semi;
-            text += "<span class='vocalized' id='" + currentId + "' inflect='" + item.inflect.replace(/:+/g, ', ') +
-              "' suggest='" + item.suggest.replace(/;/g, '، ') + "' rule='" + item.rule +
-              "' link='" + item.link + "'>" + word_to_display + "</span>";
-            //~ $('#result').data(currentId.toString(), item.suggest);
-            $('#result').data(currentId.toString(), item);
-          }
-        }
-        // display the result
-        $("#loading").data(d.order, text);
-        $("#result").html($("#result").html() + "<div class=\'tashkeel\'>" + text +
-          "</div>");
+      // draw tashkeel results
+      draw_tashkeel_results(d);
+      // draw a list of word: inflection
+      draw_inflection_results(d);
+
       });
     } // end for i intextlist
        $("#loading").hide(); 
@@ -1194,7 +1217,7 @@ $().ready(function() {
 //  $(document).on( 'click', '#spellcheck', spellcheck_click );
 
 //  $(document).on( 'click', '#tashkeel2', tashkeel2_click );
-//  $(document).on( 'click', '#tashkeel', tashkeel_click );
+  $(document).on( 'click', '#tashkeel', tashkeel_click );
 //  $(document).on( 'click', '#tokenize', tokenize_click );
 //  $(document).on( 'click', '#unshape', unshape_click );
   $(document).on( 'click', '#vocalize_group', vocalize_group_click );
