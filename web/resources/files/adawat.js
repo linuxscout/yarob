@@ -1099,7 +1099,7 @@ var txkl_change = function(e) {
 function draw_inflection_card(i,item)
 {
 var clonedCard = $("#CardToClone").clone();
-clonedCard.attr("id","#CardToClone"+i);
+clonedCard.attr("id","#cardtoclone"+i);
 var ph = clonedCard.find("#PHRASE_CLONE")
 ph.attr("id","#phrase_clone"+i);
 ph.html(item.phrase);
