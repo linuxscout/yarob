@@ -162,7 +162,7 @@
 
                 </form>
                 <!--<section class="bg-danger text-white"> أضفنا زرا لتسهيل النسخ</section>-->
-                <output id="result" class="form-control" width=100%%>{{ResultText}}</output>
+                <output id="result" class="form-control" width=100%% aria-placeholder="هنا تظهر النتائج" title="هنا تظهر النتائج"></output>
                 <section class="bg-info" id="small_hint"></section>
             </div>
 
@@ -492,7 +492,8 @@
     <!-- Card Header (Clickable Title) -->
 <!--      card-header input_phrase-->
     <div class="card-header input_phrase" data-toggle="collapse" data-target="#collapseContainer" aria-expanded="true" aria-controls="collapseContainer">
-      <h5 class="mb-0" id="PHRASE_CLONE">PHRASE_CLONE</h5> <!-- Replace with your RTL text -->
+     <span class=""><i class="fa fa-arrow-left"></i></span> <span class="mb-0" id="PHRASE_CLONE" data-toggle="tooltip" data-placement="right" title="انقر لعرض إعراب الجملة">
+          PHRASE_CLONE</span> <!-- Replace with your RTL text -->
     </div>
     <!-- Card Body and Footer (Collapsible) -->
     <div class="collapse" id="collapseContainer">
@@ -519,7 +520,7 @@
           <!-- Additional buttons -->
           <div class="btn-group mr-2" role="group" aria-label="Button group">
             <!-- Copy Button -->
-            <button type="button" class="btn btn-info" id="copy"><i class="fa fa-copy"></i> نسخ</button>
+            <button type="button" class="btn btn-info" id="copy-card"><i class="fa fa-copy"></i> نسخ</button>
             <!-- Share Button -->
             <button type="button" class="btn btn-info" id="shareButton"><i class="fa fa-share"></i> مشاركة</button>
             <!-- Other buttons with icons -->

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Card Example</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Add the RTL CSS file for Bootstrap -->
+  <link href="https://cdn.rtlcss.com/bootstrap/v5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Add Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!-- Add jQuery library -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    /* Custom CSS for Rating Stars */
+    .rating {
+      display: inline-block;
+      font-size: 24px;
+    }
+    .rating input {
+      display: none;
+    }
+    .rating label {
+      color: #ddd;
+      cursor: pointer;
+    }
+    .rating label:before {
+      content: "\f005";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+    }
+    .rating input:checked ~ label {
+      color: #f39c12;
+    }
+    .rating label:hover,
+    .rating label:hover ~ label {
+      color: #f39c12;
+    }
+    
+    /* Custom CSS for Label Buttons */
+    .label-button {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+      background-color: #f8f9fa;
+      cursor: pointer;
+      text-decoration: none;
+      color: #333;
+    }
+    .label-button:hover {
+      background-color: #e9ecef;
+    }
+
+    /* Custom CSS for Label in Toolbar */
+    .label-toolbar {
+      margin: 0 0.25rem;
+      align-items: center; /* Vertically center align the elements */
+      display: flex; /* Use flexbox for layout */
+      height: 100%; /* Ensure the label takes the same height as buttons */
+    }
+  </style>
+  <script>
+    // Custom JavaScript for Copy Card Content and Share
+    $(document).ready(function() {
+      // Function to copy card content to clipboard
+      function copyCardContent() {
+        // Get the card title and body content
+        var cardTitle = $(".card-header h5").text();
+        var cardBody = $(".card-body").text();
+
+        // Combine the title and body with line breaks
+        var contentToCopy = cardTitle + "\n" + cardBody;
+
+        // Create a temporary textarea element to copy the content
+        var tempTextarea = $("<textarea>");
+        tempTextarea.val(contentToCopy).css("position", "absolute").css("left", "-9999px");
+        $("body").append(tempTextarea);
+
+        // Copy the content from the temporary textarea
+        tempTextarea.select();
+        document.execCommand("copy");
+
+        // Remove the temporary textarea
+        tempTextarea.remove();
+
+        // Show a success message (optional)
+        alert("Card content copied to clipboard!");
+      }
+
+      // Function to handle sharing card content and URL
+      function shareCard() {
+        // Get the card title and body content
+        var cardTitle = $(".card-header h5").text();
+        var cardBody = $(".card-body").text();
+
+        // Combine the title and body with line breaks
+        var contentToShare = cardTitle + "\n" + cardBody + "\n\n" + window.location.href;
+
+        // Check if the browser supports the Share API
+        if (navigator.share) {
+          // Use the Share API to trigger the native share dialog
+          navigator.share({
+            text: contentToShare,
+          })
+            .then(() => {
+              // Sharing succeeded
+              console.log("Content shared successfully!");
+            })
+            .catch((error) => {
+              // Sharing failed
+              console.error("Error sharing content:", error);
+            });
+        } else {
+          // Fallback option if the Share API is not supported
+          // You can display a custom sharing UI or provide a link to the social media platform
+          alert("Your browser does not support the Share API. Please use the copy button to share the content.");
+        }
+      }
+
+      // Attach the click event to the copy button
+      $("#copyButton").click(function() {
+        copyCardContent();
+      });
+
+      // Attach the click event to the share button
+      $("#shareButton").click(function() {
+        shareCard();
+      });
+    });
+  </script>
+</head>
+<body dir="rtl">
+<div class="container mt-5">
+  <div class="card">
+    <!-- Card Header (Clickable Title) -->
+    <div class="card-header" data-bs-toggle="collapse" data-bs-target="#collapseContainer1" aria-expanded="true" aria-controls="collapseContainer">
+      <h5 class="mb-0">عنوان البطاقة</h5> <!-- Replace with your RTL text -->
+    </div>
+    <!-- Card Body and Footer (Collapsible) -->
+    <div class="collapse" id="collapseContainer1">
+      <div class="card-body">
+        <!-- Add your content here -->
+        <p>هذا هو محتوى البطاقة.</p> <!-- Replace with your RTL text -->
+      </div>
+      <div class="card-footer">
+        <!-- Toolbar with multiple buttons -->
+        <div class="btn-toolbar justify-content-end" role="toolbar" aria-label="Toolbar with multiple buttons">
+          <!-- Rating Stars -->
+          <div class="rating">
+            <input type="radio" id="star5" name="rating" value="5">
+            <label for="star5"></label>
+            <input type="radio" id="star4" name="rating" value="4">
+            <label for="star4"></label>
+            <input type="radio" id="star3" name="rating" value="3">
+            <label for="star3"></label>
+            <input type="radio" id="star2" name="rating" value="2">
+            <label for="star2"></label>
+            <input type="radio" id="star1" name="rating" value="1">
+            <label for="star1"></label>
+          </div>
+          <!-- Additional buttons -->
+          <div class="btn-group mr-2" role="group" aria-label="Button group">
+            <!-- Copy Button -->
+            <button type="button" class="btn btn-info" id="copyButton"><i class="fa fa-copy"></i> نسخ</button>
+            <!-- Share Button -->
+            <button type="button" class="btn btn-info" id="shareButton"><i class="fa fa-share"></i> مشاركة</button>
+            <!-- Other buttons with icons -->
+            <button type="button" class="btn btn-danger"><i class="fa fa-plus"></i>إبلاغ</button>
+            <button type="button" class="btn btn-success"><i class="fa fa-check"></i> مراجع</button>
+            <!-- Custom Label in Toolbar -->
+            <span class="label-toolbar"><i class="fa fa-percent"></i>تشابه</span>            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

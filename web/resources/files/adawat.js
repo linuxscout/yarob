@@ -345,6 +345,37 @@ var more_click = function(e) {
     //document.NewForm.InputText.value = $("#result").text();
   }
 
+  //copy result into clipboard
+  var copy_card_click = function(e) {
+        e.preventDefault()
+     var card = $(this).closest(".card");
+
+      // Find the content to copy (for example, the text in a <p> element inside the card)
+      var contentToCopy = card.find("[id^='phrase_clone']").text();
+//      console.log("Content To copy", contentToCopy)
+      contentToCopy += " \n "+card.find("p").text();
+
+      // Create a temporary input element to hold the text to copy
+      var tempInput = $("<textarea>");
+      // Set the input's value to the content to copy
+      tempInput.val(contentToCopy);
+
+      // Append the input element to the document
+      $("body").append(tempInput);
+
+      // Select the input element's content
+      tempInput.select();
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary input element from the document
+      tempInput.remove();
+
+      // Optional: Show a success message or provide visual feedback to the user
+    alert("نسخت البيانات في الحافظة.");
+  }
+
 
 // morphology analysis by Al-Qalsadi
 //  var stem_click = function(e) {
@@ -1064,12 +1095,12 @@ var txkl_change = function(e) {
       var item = $("#result").data($(this).attr('id'));
       if("features" in item)
       {var new_inflect = "["+item.features[$(this).val()][0].tagscode+"]{"+item.features[$(this).val()][0].inflect+"}#"+ item.features[$(this).val()][0].tags;
-      console.log("val "+item.features[$(this).val()]);
-      console.log("tags "+item.features[$(this).val()][0]['tags']);
-      console.log("tags "+item.features[$(this).val()][0].tags);
-      console.log("tagscode "+item.features[$(this).val()][0].tagscode);
-      console.log("inflect "+item.features[$(this).val()][0].inflect);
-      console.log("type "+item.features[$(this).val()][0].type);
+//      console.log("val "+item.features[$(this).val()]);
+//      console.log("tags "+item.features[$(this).val()][0]['tags']);
+//      console.log("tags "+item.features[$(this).val()][0].tags);
+//      console.log("tagscode "+item.features[$(this).val()][0].tagscode);
+//      console.log("inflect "+item.features[$(this).val()][0].inflect);
+//      console.log("type "+item.features[$(this).val()][0].type);
       }
       else
       {var new_inflect = "معدّل يدويا*";
@@ -1099,9 +1130,9 @@ var txkl_change = function(e) {
 function draw_inflection_card(i,item)
 {
 var clonedCard = $("#CardToClone").clone();
-clonedCard.attr("id","#cardtoclone"+i);
+clonedCard.attr("id","cardtoclone"+i);
 var ph = clonedCard.find("#PHRASE_CLONE")
-ph.attr("id","#phrase_clone"+i);
+ph.attr("id","phrase_clone"+i);
 ph.html(item.phrase);
 clonedCard.find("#INFLECTION_CLONE").html(item.inflection);
 clonedCard.find("#collapseContainer").attr("id","collapseContainer"+i);
@@ -1188,5 +1219,6 @@ $().ready(function() {
   $(document).on( 'click', '#submit-contact', contact_click);
   $(document).on( 'click', '#submit-edit', edit_click);
 
+  $(document).on( 'click', '#copy-card', copy_card_click );
 });
 
