@@ -389,7 +389,7 @@
 
 
   <div class="form-group">
-    <label for="phrase">                         يرجى إعراب الجملة الآتية من خبير لغوي بشري: 
+    <label for="phrase">                         يرجى إعراب الجملة الآتية من خبير لغوي بشري:
                         هذه الخدمة مجانية حاليّا</label> 
     <input id="ask-action" name="action" type="hidden">
     <input id="phrase" name="phrase" placeholder="اكتب جملة للإعراب" type="text" required="required" class="form-control">
@@ -482,6 +482,53 @@
             </div>
         </div>
     </section>
+
+  <div class="container mt-5" id="CardToClone">
+  <div class="card" >
+    <!-- Card Header (Clickable Title) -->
+<!--      card-header input_phrase-->
+    <div class="card-header" data-toggle="collapse" data-target="#collapseContainer" aria-expanded="true" aria-controls="collapseContainer">
+      <h5 class="mb-0" id="PHRASE_CLONE">PHRASE_CLONE</h5> <!-- Replace with your RTL text -->
+    </div>
+    <!-- Card Body and Footer (Collapsible) -->
+    <div class="collapse" id="collapseContainer">
+      <div class="card-body inflect">
+        <!-- Add your content here -->
+        <p id="INFLECTION_CLONE">INFLECTION_CLONE</p> <!-- Replace with your RTL text -->
+      </div>
+      <div class="card-footer">
+        <!-- Toolbar with multiple buttons -->
+        <div class="btn-toolbar justify-content-end" role="toolbar" aria-label="Toolbar with multiple buttons">
+          <!-- Rating Stars -->
+          <div class="rating">
+            <input type="radio" id="star5" name="rating" value="5">
+            <label for="star5"></label>
+            <input type="radio" id="star4" name="rating" value="4">
+            <label for="star4"></label>
+            <input type="radio" id="star3" name="rating" value="3">
+            <label for="star3"></label>
+            <input type="radio" id="star2" name="rating" value="2">
+            <label for="star2"></label>
+            <input type="radio" id="star1" name="rating" value="1">
+            <label for="star1"></label>
+          </div>
+          <!-- Additional buttons -->
+          <div class="btn-group mr-2" role="group" aria-label="Button group">
+            <!-- Copy Button -->
+            <button type="button" class="btn btn-info" id="copy"><i class="fa fa-copy"></i> نسخ</button>
+            <!-- Share Button -->
+            <button type="button" class="btn btn-info" id="shareButton"><i class="fa fa-share"></i> مشاركة</button>
+            <!-- Other buttons with icons -->
+            <button type="button" class="btn btn-danger" id="signal" data-toggle="modal"  href="#modal-container-187721"><i class="fa fa-plus"></i>إبلاغ</button>
+            <button type="button" class="btn btn-success"><i class="fa fa-check"></i> مراجع</button>
+            <!-- Custom Label in Toolbar -->
+            <span class="label-toolbar"><i class="fa fa-percent"></i>تشابه</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
     <script>
         //~ var script = "%(script)s";
         var script = "http://127.0.0.1:5000";

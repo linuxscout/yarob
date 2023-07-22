@@ -199,3 +199,50 @@ table.poem td {
     -moz-text-align-last: justify;
     -webkit-text-align-last: justify;
 }
+    /* Custom CSS for Rating Stars */
+    .rating {
+      display: inline-block;
+      font-size: 24px;
+    }
+    .rating input {
+      display: none;
+    }
+    .rating label {
+      color: #ddd;
+      cursor: pointer;
+    }
+    .rating label:before {
+      content: "\f005";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+    }
+    .rating input:checked ~ label {
+      color: #f39c12;
+    }
+    .rating label:hover,
+    .rating label:hover ~ label {
+      color: #f39c12;
+    }
+
+    /* Custom CSS for Label Buttons */
+    .label-button {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+      background-color: #f8f9fa;
+      cursor: pointer;
+      text-decoration: none;
+      color: #333;
+    }
+    .label-button:hover {
+      background-color: #e9ecef;
+    }
+
+    /* Custom CSS for Label in Toolbar */
+    .label-toolbar {
+      margin: 0 0.25rem;
+      align-items: center; /* Vertically center align the elements */
+      display: flex; /* Use flexbox for layout */
+      height: 100%; /* Ensure the label takes the same height as buttons */
+    }

@@ -341,6 +341,7 @@ var more_click = function(e) {
     $temp.val($("#result").text()).select();
     document.execCommand("copy");
     $temp.remove();
+    alert("نسخت البيانات في الحافظة.");
     //document.NewForm.InputText.value = $("#result").text();
   }
 
@@ -1094,47 +1095,98 @@ var txkl_change = function(e) {
 //       console.log($(this).text()+"-"+$(this).next().text());
     }
  }
- 
- 
-var  lookup_click = function(e) {
-        e.preventDefault()
 
-    $("#result").html("");
-    var item;
+function draw_inflection_card(i,item)
+{
+var clonedCard = $("#CardToClone").clone();
+clonedCard.attr("id","#CardToClone"+i);
+var ph = clonedCard.find("#PHRASE_CLONE")
+ph.attr("id","#phrase_clone"+i);
+ph.html(item.phrase);
+clonedCard.find("#INFLECTION_CLONE").html(item.inflection);
+clonedCard.find("#collapseContainer").attr("id","collapseContainer"+i);
 
-    $.getJSON(script + "/ajaxGet", {
-      text: document.NewForm.InputText.value,
-      action: "Lookup"
-    }, function(d) {
-      $("#result").html("");
-      for (i = 0; i < d.result.length; i++) {
-        item = d.result[i];
-//        console.log(i);
+var x = clonedCard.find(".card-header");
+x.attr("data-target", "#collapseContainer"+i);
+console.log("X cardheadr: : "+x.attr("data-target"));
+//clonedCard.find(".card-header").attr("data-target","#collapseContainer"+i);
+return clonedCard;
+}
+
+function draw_inflection_card_html(i,item)
+{
+var html = `<div class="container mt-5">
+  <div class="card">
+    <!-- Card Header (Clickable Title) -->
+    <div class="card-header input_phrase" data-toggle="collapse" data-target="#collapseContainer${i}" aria-expanded="true" aria-controls="collapseContainer">
+      <h5 class="mb-0">${item.phrase}</h5> <!-- Replace with your RTL text -->
+    </div>
+    <!-- Card Body and Footer (Collapsible) -->
+    <div class="collapse" id="collapseContainer${i}">
+      <div class="card-body inflect">
+        <!-- Add your content here -->
+        <p>${item.inflection}.</p> <!-- Replace with your RTL text -->
+      </div>
+      <div class="card-footer">
+        <!-- Toolbar with multiple buttons -->
+        <div class="btn-toolbar justify-content-end" role="toolbar" aria-label="Toolbar with multiple buttons">
+          <!-- Rating Stars -->
+          <div class="rating">
+            <input type="radio" id="star5" name="rating" value="5">
+            <label for="star5"></label>
+            <input type="radio" id="star4" name="rating" value="4">
+            <label for="star4"></label>
+            <input type="radio" id="star3" name="rating" value="3">
+            <label for="star3"></label>
+            <input type="radio" id="star2" name="rating" value="2">
+            <label for="star2"></label>
+            <input type="radio" id="star1" name="rating" value="1">
+            <label for="star1"></label>
+          </div>
+          <!-- Additional buttons -->
+          <div class="btn-group mr-2" role="group" aria-label="Button group">
+            <!-- Copy Button -->
+            <button type="button" class="btn btn-info" id="copy"><i class="fa fa-copy"></i> نسخ</button>
+            <!-- Share Button -->
+            <button type="button" class="btn btn-info" id="shareButton"><i class="fa fa-share"></i> مشاركة</button>
+            <!-- Other buttons with icons -->
+            <button type="button" class="btn btn-danger" id="signal" data-toggle="modal"  href="#modal-container-187721"><i class="fa fa-plus"></i>إبلاغ</button>
+            <button type="button" class="btn btn-success"><i class="fa fa-check"></i> مراجع</button>
+            <!-- Custom Label in Toolbar -->
+            <span class="label-toolbar"><i class="fa fa-percent"></i>تشابه</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`
+
+return html;
+}
+function draw_inflection_card2(i,item)
+{
         var div_item = document.createElement('div');
         var div_phrase = document.createElement('div');
         var div_inflect = document.createElement('div');
         // used for extra informations
         var div_extra = document.createElement('div');
 
+
         // set classes
-//        div_item.setAttribute('class', "vocalized");
         div_phrase.setAttribute('class', "input_phrase");
         div_phrase.setAttribute('data-toggle', "collapse");
         div_phrase.setAttribute('data-target', "#collapseExample"+i);
         div_inflect.setAttribute('class', "inflect collapse");
         div_inflect.setAttribute("id", "collapseExample"+i);
-        div_extra.setAttribute('class', "extra");
-//        span.setAttribute('class', item.tag);
+        div_extra.setAttribute('class', "btn-group btn-group-sm flex");
+        div_extra.setAttribute('role', "toolbar");
         div_phrase.innerHTML = item.phrase;
         div_inflect.innerHTML = item.inflection;
-        //extra information:
-//        const buttons = ["تقييم", "نسخ", "مشاركة", "إبلاغ", "راجعه خبير",
-//          "تشابه "+ item.freq +"%",
-//        ];
-//        div_extra.innerHTML = buttons.join(" ");
+
         // recommandation btn
         var btn1 = document.createElement('button')
-        btn1.setAttribute('class',"btn btn-info btn-xs")
+        btn1.setAttribute('class',"btn btn-info")
         for(let i=1;i<5;i++)
         {
         var glyph = document.createElement('span')
@@ -1149,7 +1201,7 @@ var  lookup_click = function(e) {
 
         // share btn
         var btn2 = document.createElement('button')
-        btn2.setAttribute('class',"btn btn-info btn-xs")
+        btn2.setAttribute('class',"btn btn-info")
         var glyph = document.createElement('span')
         glyph.setAttribute("class", "glyphicon glyphicon-share")
         btn2.appendChild(glyph);
@@ -1159,7 +1211,7 @@ var  lookup_click = function(e) {
 
         // copy btn
         var btn3 = document.createElement('button')
-        btn3.setAttribute('class',"btn btn-info btn-xs")
+        btn3.setAttribute('class',"btn btn-info")
         var glyph = document.createElement('span')
         glyph.setAttribute("class", "glyphicon glyphicon-floppy-disk")
         glyph.setAttribute("id", "copy")
@@ -1170,7 +1222,7 @@ var  lookup_click = function(e) {
 
         // signal btn
         var btn4 = document.createElement('button')
-        btn4.setAttribute('class',"btn btn-danger btn-xs")
+        btn4.setAttribute('class',"btn btn-danger")
         btn4.setAttribute('data-toggle',"modal")
         btn4.setAttribute('href',"#modal-container-187721")
         var glyph = document.createElement('span')
@@ -1181,7 +1233,7 @@ var  lookup_click = function(e) {
 
 
         // review label
-        var lbl1 = document.createElement('button')
+        var lbl1 = document.createElement('span')
         var glyph = document.createElement('span')
         if (item.checked)
         {
@@ -1203,7 +1255,7 @@ var  lookup_click = function(e) {
 
 
         // similarity and score badge
-        var lbl2 = document.createElement('button')
+        var lbl2 = document.createElement('span')
         lbl2.setAttribute('class',"badge badge-success")
         lbl2.appendChild(document.createTextNode( "تشابه "+ item.freq +"%",));
         div_extra.appendChild(lbl2)
@@ -1212,11 +1264,25 @@ var  lookup_click = function(e) {
         div_item.appendChild(div_phrase);
         div_inflect.appendChild(div_extra);
         div_item.appendChild(div_inflect);
-//        div_item.appendChild(div_extra);
-//        var hr =  document.createElement('hr');
-//
-//        div_item.appendChild(hr);
+        return div_item;
+}
+ 
+var  lookup_click = function(e) {
+        e.preventDefault()
 
+    $("#result").html("");
+    var item;
+
+    $.getJSON(script + "/ajaxGet", {
+      text: document.NewForm.InputText.value,
+      action: "Lookup"
+    }, function(d) {
+      $("#result").html("");
+      for (i = 0; i < d.result.length; i++) {
+        item = d.result[i];
+//        console.log(i);
+
+        var div_item = draw_inflection_card(i, item );
       $("#result").append(div_item);
       }
 
