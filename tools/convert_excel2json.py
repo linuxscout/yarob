@@ -1,0 +1,181 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+#  convert_excel2json.py
+#  
+#  Copyright 2023 zerrouki <zerrouki@majd4>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+#  
+# -*- coding=utf-8 -*-
+#************************************************************************
+# $Id:generateverbdict.py,v 0.7 2009/06/02 01:10:00 Taha Zerrouki $
+#  Generate dictionary from manual dictionary
+#
+#***********************************************************************/
+
+import sys
+import argparse
+import os
+import pprint
+import pandas as pds
+
+sys.path.append("../yarob")
+import pyarabic.araby as araby
+
+scriptname = os.path.splitext(os.path.basename(sys.argv[0]))[0]
+scriptversion = '0.1'
+AuthorName="Taha Zerrouki"
+MAX_LINES_TREATED=1100000;
+from datetime import datetime
+
+
+
+def grabargs():
+    parser = argparse.ArgumentParser(description='Convert Samples Excel to other format.')
+    # add file name to import and filename to export
+    
+    parser.add_argument("-f", dest="filename", required=True,
+    help="input file to convert", metavar="FILE")
+    
+    parser.add_argument("-o", dest="outfile", required=False,
+    help="Output file to convert", metavar="OUTFILE")
+    
+    parser.add_argument("-d", dest="format", required=True,
+    help="output format as (json, sql, markdown", metavar="OUT-FORMAT")
+    
+    parser.add_argument("-v", dest="version", nargs='?',
+    help="Release version", metavar="Version")
+
+    parser.add_argument("-l",dest="limit", type=int, nargs='?',
+                         help="the limit of treated lines")
+
+    args = parser.parse_args()
+    return args
+
+class sample_reader:
+    
+    def __init__(self, filename, limit):
+        
+        _ , file_type = os.path.splitext(filename)
+        print(file_type)
+        if file_type == ".xlsx":
+            self.df = pds.read_excel(filename, nrows=limit)
+            self.df = self.df.fillna("")
+            print(self.df.head())
+        elif file_type == ".csv":
+            self.df = pds.read_csv(filename) 
+        else:
+            self.df = None
+            
+    def convert(self, outformat, outfile):
+        """
+        Convert the dataframe into specific format
+        """
+        if self.df.empty:
+            return None
+
+        if outformat == "py":
+            self.process_as_py(outfile)
+        elif outformat == "json":
+            self.process_as_json(outfile)
+        else:
+            print("Convret into other format",outformat)
+
+    def process_as_py(self, outfile):
+        """
+        export data into python indexed records format
+        a dict of dicts
+        """
+        # fixed the index,
+        # used to index records with "id"
+        self.df["id_extern"] = self.df["id"]
+        self.df = self.df.set_index("id_extern")
+        indexed_records  = self.df.to_dict("index",)
+        # indexed_records = self.df.set_index('id').T.to_dict('list')
+        # list_records  = self.df.to_dict("records")
+        # indexed_records = dict((rec.get("id"), rec) for rec in list_records)
+        with open(outfile, "w") as log_file:
+            # generate a header
+            log_file.write(self.get_header("py"))
+            # add sample variable
+            log_file.write('SAMPLES =')
+            # write python table into file
+            pprint.pprint(indexed_records , log_file, width=500)
+
+
+    def process_as_json(self, outfile):
+        """
+        export data into json format
+        """
+        #fixed: problem with index is different from id
+        # used to index records with "id"
+        self.df["id_extern"] = self.df["id"]
+        self.df = self.df.set_index("id_extern")
+        self.df.to_json(outfile, orient="index", force_ascii=False)
+
+
+    def print_tuple(self, sdict):
+        """
+        convert tuple to string
+        """
+        print(sdict)
+
+    def get_header(self, outformat):
+        """
+        Get a header to print in file
+        """
+        comment= ""
+        if outformat == "json":
+            return ""
+        # if json no header
+        if outformat == "py":
+            comment = "# "
+        else:
+            comment = "#"
+        now = datetime.now().strftime("%m/%d/%Y, %H:%M")  # current date and time
+        header = comment + """ Samples file generated by %s\n"""%scriptname
+        header += comment + """ generated on %s\n"""%now
+        return header
+
+def main():
+    args = grabargs()
+
+    filename = args.filename
+    outformat = args.format
+    if not outformat:
+        outformat = "json"
+    outfile = args.outfile
+    
+    if not outfile:
+        outfile = filename+"."+outformat
+
+    limit= args.limit
+    if not limit:
+        limit = MAX_LINES_TREATED
+    print(filename, outfile, outformat, limit)
+    # read excel file,
+    # convert it into json format or sql
+    
+    reader = sample_reader(filename, limit)
+    reader.convert(outformat, outfile)
+    # ~ reader.to_sql()
+
+    
+
+if __name__ == "__main__":
+  main()
