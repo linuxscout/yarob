@@ -96,8 +96,10 @@ class SamplesDB:
         word_index = {}
         for id_key in data:
             # lemmas are already calculted in data dict
-            lemmas = data[id_key].get("keywords","").split(":")
-            if not lemmas:
+            lemmas = data[id_key].get("keywords","")
+            if lemmas:
+                lemmas = lemmas.split(":")
+            else:
                 phrase = data[id_key].get("phrase", "")
                 lemmas = self._get_phrase_lemmas(phrase)
             for lem in lemmas:
@@ -123,11 +125,9 @@ class SamplesDB:
         phrase_nm = araby.strip_tashkeel(phrase)
         # get all lemmas
         tokens = self._get_phrase_lemmas(phrase_nm)
-        candidates_doc = []
         candidates_phrases = []
         # look up for all phrases containing tokens
-        for tok in tokens:
-            candidates_doc.extend(self.index.get(tok, []))
+        candidates_doc = self._get_ids_from_index(tokens)
         candidates_doc = list(set(candidates_doc))
         # order candidate_phrases according to their frequency
         # more a phrase contains tokens it will be selected
@@ -154,6 +154,14 @@ class SamplesDB:
         """
         return copy.deepcopy(samples_const.SAMPLES)
 
+    def _get_ids_from_index(self, tokens):
+        """
+        return all ids from word indexes
+        """
+        ids = []
+        for tok in tokens:
+            ids.extend(self.index.get(tok, []))
+        return ids
     @staticmethod
     def _similar(a, b):
         """
@@ -185,7 +193,13 @@ class SamplesDB:
                  "inflection": "إعراب الجملة", },
                 {"phrase": phrase+"2",
                  "inflection": "إعراب الجملة", }, ]
-        
+
+    def get_by_id(self,rec_id, options={}):
+        """
+        return Data by id
+        """
+        return  self.data.get(rec_id, {})
+
 
 def main():
     return 0

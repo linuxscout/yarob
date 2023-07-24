@@ -34,9 +34,11 @@ import pyarabic.araby as araby
 import randtext
 from  mysam.taginflector import tagInflector
 from  mysam.tagcoder import tagCoder
-sys.path.append(os.path.join("../yarob"))
+sys.path.append(os.path.join("../"))
 
-import samplesdb
+import yarob.samplesdb_factory
+SAMPLEDB_FORMAT = "sqlite"
+# SAMPLEDB_FORMAT = "python"
 
 # ~ import phrase_generator
 def DoAction(text, action, options = {}):
@@ -45,14 +47,15 @@ def DoAction(text, action, options = {}):
     """
     if action == "DoNothing":
         return text
-    elif action == "phrase":
-        return build_phrase(options)
+    # elif action == "phrase":
+    #     return build_phrase(options)
     elif action == "sample":
         return build_sample(options)
     elif action == "RandomText":
         return random_text() 
     elif action == "Tashkeel2":
-        lastmark = options.get('lastmark', "0")    
+        lastmark = options.get('lastmark', "0")
+        print("Last Mark", lastmark)
         return tashkeel2(text, lastmark)               
     elif action == "Lookup":
         lastmark = options.get('lastmark', "0")    
@@ -78,13 +81,13 @@ def DoAction(text, action, options = {}):
         print(action, text, options)
         return text
 
-def build_phrase(options):        
-    phraser = phrase_generator.PhraseGenerator()
-    components = options
-    phrase = phraser.build(components)
-    #~ print(u"".join(["<%s>"%x for x in components.values()]))
-    #~ print(phraser.pattern.stream.__str__())
-    return phrase
+# def build_phrase(options):
+#     phraser = phrase_generator.PhraseGenerator()
+#     components = options
+#     phrase = phraser.build(components)
+#     #~ print(u"".join(["<%s>"%x for x in components.values()]))
+#     #~ print(phraser.pattern.stream.__str__())
+#     return phrase
 
 def build_sample(options):        
     """generate samples"""
@@ -108,34 +111,7 @@ def tashkeel2(text, lastmark):
     vocalized_dict = vocalizer.tashkeel_ouput_html_suggest(text)
     return vocalized_dict    
     
-# ~ def lookup_inflect(text, lastmark):
-    # ~ """
-    # ~ Lookup for similar phrase in data base,
-    # ~ ordred by revelence
-    # ~ """
-    # ~ cpath = os.path.join(os.path.dirname(__file__), '../tmp/')
-    # ~ vocalizer = ArabicVocalizer.TashkeelClass(mycache_path = cpath)
-    # ~ #~ vocalizer.disable_cache()
-    # ~ if lastmark == "0" or not lastmark:
-        # ~ vocalizer.disable_last_mark()    
-    # ~ vocalized_dict = vocalizer.tashkeel_ouput_html_suggest(text)
-    # ~ return vocalized_dict 
 
-# def lookup_inflect(text, last_mark=""):
-#     """
-#     Lookup for similar texts and give their inflections
-#     """
-#     word_list = araby.tokenize(text)
-#
-#     if not word_list:
-#         return []
-#     else:
-#         list_result = []
-#         for word in word_list:
-#             word_nm = araby.strip_tashkeel(word)
-#             tag = 'إعراب الكلمة'
-#             list_result.append({'word':word, 'tag': tag})
-#         return list_result
 def highlite(output_ph, input_ph):
     """
     Highlight words in output which are similar to words in input
@@ -179,7 +155,8 @@ def lookup_inflect(text, last_mark=""):
     """
     # word_list = araby.tokenize(text)
     
-    db =  samplesdb.SamplesDB()
+
+    db =  yarob.samplesdb_factory.SamplesDB_factory.factory(SAMPLEDB_FORMAT)
     results = db.match(text)
     # results = db.lookup(text)
 
@@ -192,7 +169,9 @@ def lookup_inflect(text, last_mark=""):
         res["phrase"] = highlite(res["phrase"], text)
         res["rating"] = res.get("rating",0)
         list_result.append(res)
-
+    print("RESULT TYPE", type(list_result))
+    print("RESULT TYPE [0]", type(list_result[0]))
+    print("RESULT [0]", list_result[0])
     return list_result
 
 def get_all(options={}):
@@ -201,7 +180,8 @@ def get_all(options={}):
     """
     # word_list = araby.tokenize(text)
 
-    db =  samplesdb.SamplesDB()
+
+    db =  yarob.samplesdb_factory.SamplesDB_factory.factory(SAMPLEDB_FORMAT)
     results = db.get_all()
     # results = db.lookup(text)
 

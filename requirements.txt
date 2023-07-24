@@ -1,9 +1,13 @@
 mishkal>=0.4.1
 qalsadi>=0.5
 pyarabic>=0.6.15
+SQLAlchemy>=2.0.19
 #web
 flask>=2.2.3
 flask-minify>=0.42
 flask-cors>=4.0.0
 #test
-pytest
+pytest>=7.4.0
+# Conversion and data preparation
+pandas>=2.0.3
+openpyxl>=3.1.2

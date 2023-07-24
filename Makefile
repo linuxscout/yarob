@@ -66,8 +66,24 @@ server:
 test:
 	#cd tests;python3 -m pytest test_*
 	cd tests;python3 -m pytest test_sampledb.py
+	cd tests;python3 -m pytest test_sampledb_sql.py
 	cd tests;python3 -m pytest test_adaat.py
 	
 struct:
 	python3 tools/restructure_data.py > tests/output/samples_temp.review.py
+
+excel:DATA=data-source/samples.xlsx
+excel:OUTDATA=tests/output/samples.py
+#excel:LIMITOPTION=-l 10
+excel:LIMITOPTION=
+excel:FORMAT=py
+
+excel_json:DATA=data-source/samples.xlsx
+excel_json:OUTDATA=tests/output/samples.json
+excel_json:LIMITOPTION=-l 10
+excel_json:FORMAT=json
+excel excel_json:
+	python3 tools/convert_excel2json.py -f $(DATA) -d $(FORMAT) -o $(OUTDATA)  $(LIMITOPTION)
+
+
 
