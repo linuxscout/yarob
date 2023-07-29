@@ -26,6 +26,7 @@ def getAjax(text: str, action: str,order:int=0,lastmark:int=0):
     and actions as endpoint or payload type
     for now, im settling with the current structure, but there is room to improve.
 
+
     '''
     resulttext = adaat.DoAction(text, action,{"order":order,"lastmark":lastmark})
     results = {'result':resulttext, 'order':0}
