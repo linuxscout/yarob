@@ -15,7 +15,7 @@ app.add_middleware(
 )
 
 @app.get('/',include_in_schema=False)
-def home():
+def homepage():
     return  get_swagger_ui_html(openapi_url=app.openapi_url,title=app.title + " - Swagger UI",)
 @app.get("/ajaxGet")
 def getAjax(text: str, action: str,order:int=0,lastmark:int=0):
