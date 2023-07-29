@@ -5,7 +5,7 @@ from fastapi.openapi.docs import get_swagger_ui_html
 import adaat
 import json
 app = FastAPI()
-# we allow all origings, using wildcard, when frontend interface origins are known, remove wildcard.
+# we allow all origins, using wildcard, when frontend interface origins are known, remove wildcard.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
