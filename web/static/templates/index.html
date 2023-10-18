@@ -9,12 +9,12 @@
 
     <title>يعرب: إعراب الجمل العربية</title>
     <meta charset="UTF-8">
-    <link href="resources/files/favicon1.png" rel="icon" type="image/png">
-    <link href="resources/files/adawatstyle.css" rel="stylesheet">
+    <link href="{{ url_for('static', path='resources/files/favicon1.png') }} " rel="icon" type="image/png">
+    <link href="{{ url_for('static',path='resources/files/adawatstyle.css' ) }}" rel="stylesheet">
 <!--    <link href="resources/files/bootstrap-5.0.2/css/bootstrap.min.css" rel="stylesheet">-->
-    <link href="resources/files/xzero-rtl/css/bootstrap-arabic.min.css" rel="stylesheet">
+<link href="{{ url_for('static', path='resources/files/xzero-rtl/css/bootstrap-arabic.min.css') }}" rel="stylesheet">
  <!-- Add Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <meta content="width=device-width, initial-scale=1" name="viewport">
 </head>
@@ -29,7 +29,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-                    <a class="navbar-brand" href="/"><img alt="يعرب: إعراب الجمل العربية" height="80px" src="resources/files/logo.png" style='float:right; margin-top:-20px;'> </a>
+      <a class="navbar-brand" href="/"><img alt="يعرب: إعراب الجمل العربية" height="80px" src="{{ url_for('static', path='resources/files/logo.png') }}" style='float:right; margin-top:-20px;'> </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="myNavbar2">
@@ -220,28 +220,27 @@
 
     <div class="row imagetiles">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <a href="http://ayaspell.sf.net"><img src="resources/files/images/ayaspell.png" alt="التدقيق الإملائي" class="img-responsive"></a>
+            <a href="http://ayaspell.sf.net"><img src="{{ url_for('static', path='resources/files/images/ayaspell.png') }}" alt="التدقيق الإملائي" class="img-responsive"></a>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <a href="http://qutrub.arabeyes.org"><img src="resources/files/images/qutrub.jpg" alt="قطرب " class="img-responsive"></a>
+            <a href="http://qutrub.arabeyes.org"><img src="{{ url_for('static', path='resources/files/images/qutrub.jpg') }}" alt="قطرب " class="img-responsive"></a>
             </div>
         </div>
         <div class="row imagetiles">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <a href="http://adawat.sf.net"><img src="resources/files/images/adawat.png" alt="أدوات" class="img-responsive"></a>
+            <a href="http://adawat.sf.net"><img src="{{ url_for('static',path='resources/files/images/adawat.png') }}" alt="أدوات" class="img-responsive"></a>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <a href="http://radif.sf.net"> <img src="resources/files/images/radif.png" alt="الرديف" class="img-responsive"></a>
+            <a href="http://radif.sf.net"> <img src="{{ url_for('static',path='resources/files/images/radif.png')}}" alt="الرديف" class="img-responsive"></a>
 
         </div>
     </div>
         <div class="row imagetiles">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <a href="http://pypi.python.org/pypi/PyArabic/"><img src="resources/files/images/pyarabic.png" alt="مكتبة بيثون العربية" class="img-responsive"></a>
+            <a href="http://pypi.python.org/pypi/PyArabic/"><img src="{{ url_for('static',path='resources/files/images/pyarabic.png') }}" alt="مكتبة بيثون العربية" class="img-responsive"></a>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        <a href="http://pypi.python.org/pypi/Tashaphyne/"><img src="resources/files/images/tashaphyne.png" alt="التحليل الصرفي" class="img-responsive"></a>
-
+            <a href="http://pypi.python.org/pypi/Tashaphyne/"><img src="{{ url_for('static',path='resources/files/images/tashaphyne.png') }}" alt="التحليل الصرفي" class="img-responsive"></a>
         </div>
     </div>
 </div>
@@ -280,7 +279,7 @@
 <!--
 </div>
 -->
-                            <br/> الاستضافة بدعم من شركة <a href="https://dreamdev.dz/"> DreamDev.dz<span class="glyphicon glyphicon-globe"></span><br/><img src="resources/files/images/dreamdevdz.png" style="width:100px"></a>
+<br/> الاستضافة بدعم من شركة <a href="https://dreamdev.dz/"> DreamDev.dz<span class="glyphicon glyphicon-globe"></span><br/><img src="{{ url_for('static',path='resources/files/images/dreamdevdz.png') }}" style="width:100px"></a>
 
                         </div>
                     </div>
@@ -541,9 +540,9 @@ Hidden div is used obly to hide thscardto clone
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <!--    <script async src="resources/files/bootstrap-5.0.2/js/bootstrap.min.js"></script>-->
-    <script async src="resources/files/xzero-rtl/js/bootstrap-arabic.min.js"></script>
+    <script async src="{{ url_for('static',path='resources/files/xzero-rtl/js/bootstrap-arabic.min.js') }}"></script>
 <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>-->
-    <script async src="resources/files/adawat.js"></script>
+    <script async src="{{ url_for('static', path='resources/files/adawat.js') }}"></script>
     </span>
 </body>
 
