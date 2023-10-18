@@ -62,7 +62,7 @@ samples_build2:
 
 server:
 	echo "run server on http://127.0.0.1:5000/"
-	cd web; python3 yarob_flask.py
+	cd web; uvicorn main:app --reload --port 5000
 test:
 	#cd tests;python3 -m pytest test_*
 	cd tests;python3 -m pytest test_sampledb.py

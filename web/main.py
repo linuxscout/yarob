@@ -1,11 +1,16 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,Request
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+
 import adaat
-import json
+
 app = FastAPI()
-# we allow all origins, using wildcard, when frontend interface origins are known, remove wildcard.
+
+# allow all origins, using wildcard, when frontend interface origins are known, remove wildcard.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -13,10 +18,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+#mount static files, templates TODO: can we make directoreis simpler ? 
+app.mount("/static", StaticFiles(directory="static"), name ="static")
+templates = Jinja2Templates(directory ="static/templates")
 
-@app.get('/',include_in_schema=False)
-def homepage():
-    return  get_swagger_ui_html(openapi_url=app.openapi_url,title=app.title + " - Swagger UI",)
+@app.get('/',include_in_schema=False,response_class=HTMLResponse)
+def index(request : Request):
+    return  templates.TemplateResponse("index.html", {"request":request})
 @app.get("/ajaxGet")
 def getAjax(text: str, action: str,order:int=0,lastmark:int=0):
     '''
@@ -25,8 +33,6 @@ def getAjax(text: str, action: str,order:int=0,lastmark:int=0):
     and text as payload
     and actions as endpoint or payload type
     for now, im settling with the current structure, but there is room to improve.
-
-
     '''
     resulttext = adaat.DoAction(text, action,{"order":order,"lastmark":lastmark})
     results = {'result':resulttext, 'order':0}
