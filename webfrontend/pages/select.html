@@ -1,0 +1,110 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<title>بدون اسم</title>
+<!-- Include Bootstrap CSS and jQuery library -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+</head>
+<body>
+<!-- Your HTML content -->
+<div class="container mt-5" id="inflectsParent"   data-custom-value="Option 1,Option 2,Option 3">
+  <span id="inflects" >Option 1,Option 2,Option 3</span>
+</div>
+
+ <script>
+  $(document).ready(function() {
+    var myButton = $("#inflectsParent");
+  var customValue = myButton.data("custom-value");
+  console.log(customValue); // Output: 42
+    // Function to convert the span into a select element
+    function convertToSelect() {
+      // Get the span element and its content
+      var span = $("#inflectsParent");
+      var optionsData = span.data("custom-value");
+
+      // Create the select element
+      var select = $("<select>", { class: "form-control", id: "dynamicSelect" });
+
+      // Split the options data into an array
+      var optionsArray = optionsData.split(",");
+
+      // Add options to the select element
+      optionsArray.forEach(function(optionText) {
+        var option = $("<option>", { text: optionText });
+        select.append(option);
+      });
+
+      // Store the original options in a data attribute
+      select.data("original-options", optionsArray.join(","));
+
+      // Replace the span with the select element
+      span.replaceWith(select);
+
+      // Add change event handler to the select to check for "Option3" selection
+      select.on("change", function() {
+        if ($(this).val() === "Option 3") {
+          convertToEditInput($(this));
+        } else {
+          convertToSpan($(this));
+        }
+      });
+    }
+
+    // Function to convert the select into an edit input
+    function convertToEditInput(select) {
+      // Get the selected option value
+      var selectedOptionValue = select.val();
+
+      // Create the edit input element
+      var editInput = $("<input>", { type: "text", class: "form-control", id: "dynamicInput", value: selectedOptionValue });
+
+      // Replace the select with the edit input
+      select.replaceWith(editInput);
+
+      // Focus on the edit input
+      editInput.focus();
+
+      // Add blur event handler to the input to convert back to span when it loses focus
+      editInput.on("blur", function() {
+        convertToSpan($(this));
+      });
+    }
+
+    // Function to convert the edit input back to a span
+    function convertToSpan(editInput) {
+      // Get the input value
+      var inputValue = editInput.val();
+
+      // Create the span element
+      var span = $("<span>", { id: "inflects", text: inputValue });
+
+      // Get the original options from the data attribute
+      var originalOptions = $("#inflectsParent").data("custom-value").split(",");
+
+      // If the edited value is one of the original options, update the span's text
+      if (originalOptions.includes(inputValue)) {
+        span.text(inputValue);
+      }
+
+      // Replace the edit input with the span
+      editInput.replaceWith(span);
+    }
+
+    // Add click event handler to the container for delegating the click event
+    $(".container").on("click", "#inflects", function() {
+      convertToSelect();
+    });
+  });
+</script>
+
+
+
+
+	
+</body>
+
+</html>
