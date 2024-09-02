@@ -19,6 +19,7 @@ Ya'rob I'rab Arabic Inflection   يَعرًب: برنامج للإعراب
 
 يحتوي البرنامج أيضًا على أزرار لخدمات إضافية، مثل التشكيل الآلي للكلمات، والبحث في الجمل المعربة المحفوظة، وتعديل الإعراب إن رغبت في ذلك.
 
+
 تتضمن المنصة خدمة البحث في الجمل المعربة المحفوظة، حيث يمكنك البحث عن جمل مشابهة لجملتك أو جزء منها. على سبيل المثال، إذا بحثت عن جملة "أكل الولد تفاحة"، فسيوفر لك البرنامج جملًا أخرى تحتوي على الكلمات نفسها مثل "أكل الغلام تفاحة" أو "تفاحة جميلة" أو "أكل لذيذ".
 
 تتيح المنصة أيضًا إمكانية إعراب الكلمات المُفردة، تبحث عن كلمة ما، في  قاعدة البيانات، وتنفع هذه في المساعدة على إعراب الحروف والأدوات النحوية  مثل "إذا"، "إذن"، وإعرابها بسرعة وسهولة.
@@ -31,6 +32,13 @@ Ya'rob I'rab Arabic Inflection   يَعرًب: برنامج للإعراب
 
 من بين السياسات التي يتبعها البرنامج، يُمنع إدخال نصوص غير عربية، ويمنع الألفاظ الخارجة من الظهور في النتائج. تتضمن المنصة سياسة نشر محددة للمستخدم، إذا كان رغب في نشر طلباته ونتائجه آليًا أم لا،  كما يتوفر أيضًا خدمة الحظر المؤقت لمدة أيام بطلب من المستخدم، ويمكن للمعلمين استخدام هذه الخاصية لمنع ظهور نتيجة الإعراب قبل انتهاء الامتحانات.
 
+[Yarob](https://tahadz.com/yarob)  is a platform for linguistic parsing of Arabic sentences إعراب. It provides resources and services to help you understand Arabic sentences and parse their words and parts. 
+ 
+ The program provides an automated parsing assistant service, which helps you analyze sentences and determine the function of each word in the sentence, to reach the correct parsing.
+
+The assistant provides: the morphological analysis service, and allows searching in saved parsed sentences. And a database of parsing words and grammatical tools.
+
+The program also contains buttons for additional services, such as automatic word diacritization, searching in saved parsed sentences, and modifying parsing if you wish
 </div>
 
 ## أصل التسمية
